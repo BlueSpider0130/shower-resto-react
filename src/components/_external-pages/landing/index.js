@@ -1,0 +1,9 @@
+export { default as LandingHero } from './LandingHero';
+export { default as LandingShower } from './LandingShower';
+export { default as LandingWalkInShower } from './LandingWalkInShower';
+export { default as LandingBathtub } from './LandingBathtub';
+export { default as LandingAdvertisement } from './LandingAdvertisement';
+export { default as LandingWalkSubscription } from './LandingWalkSubscription';
+export { default as LandingBathtubSubscription } from './LandingBathtubSubscription';
+export { default as LandingWhyShower } from './LandingWhyShower';
+export { default as LandingContactUs } from './LandingContactUs';
