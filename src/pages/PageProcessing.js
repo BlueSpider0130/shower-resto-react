@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { makeStyles, withStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, withStyles, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
 // material
 import {
   Container,
@@ -27,94 +27,181 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import VideoLabelIcon from '@material-ui/icons/VideoLabel';
 import { varFadeIn, varWrapEnter, varFadeInRight, TextAnimate, MotionInView } from '../components/animate';
-import { SelectType, GetPersonalData } from '../components/booking';
+import { SelectType, GetPersonalData, SelectPackage } from '../components/booking';
 // components
 import Page from '../components/Page';
 
 // ----------------------------------------------------------------------
 const SERVICE_DATA = [
   {
-    type: 'stand-up',
+    type: 'Stand Up Shower',
     packages: [
       {
         title: 'Essential Package',
         budget: '299',
         services:
-          'steam clean of tile and grout, glass cleaning, all shower fixtures & remove and replace all silicone from tile, grout and glass'
+          'steam clean of tile and grout, glass cleaning, all shower fixtures & remove and replace all silicone from tile, grout and glass',
+        add_ons: [
+          {
+            service: 'Traces of Black Mould/Mildew',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Rectangular/Larger Size Shower',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Missing/DamagedGrout',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Glass Cleaning',
+            budget: '75',
+            checked: false
+          },
+          {
+            service: 'Replace Plastic Strip on Glass Door',
+            budget: '30',
+            checked: false
+          }
+        ]
       },
       {
         title: 'Deluxe Package',
         budget: '599',
         services:
-          'Essential Package PLUS colour sealing of all grout lines on walls and ceiling, custom colours available'
+          'Essential Package PLUS colour sealing of all grout lines on walls and ceiling, custom colours available',
+        add_ons: [
+          {
+            service: 'Traces of Black Mould/Mildew',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Rectangular/Larger Size Shower',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Missing/DamagedGrout',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Glass Cleaning',
+            budget: '75',
+            checked: false
+          },
+          {
+            service: 'Replace Plastic Strip on Glass Door',
+            budget: '30',
+            checked: false
+          }
+        ]
       },
       {
         title: 'Complete Package',
         budget: '799',
-        services: 'Deluxe Package PLUS re-grout shower floor with e-proxy based grout'
-      }
-    ],
-    add_ons: [
-      {
-        service: 'Traces of Black Mould/Mildew',
-        budget: '99'
-      },
-      {
-        service: 'Rectangular/Larger Size Shower',
-        budget: '99'
-      },
-      {
-        service: 'Missing/DamagedGrout',
-        budget: '99'
-      },
-      {
-        service: 'Glass Cleaning',
-        budget: '75'
-      },
-      {
-        service: 'Replace Plastic Strip on Glass Door',
-        budget: '30'
+        services: 'Deluxe Package PLUS re-grout shower floor with e-proxy based grout',
+        add_ons: [
+          {
+            service: 'Traces of Black Mould/Mildew',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Rectangular/Larger Size Shower',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Missing/DamagedGrout',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Glass Cleaning',
+            budget: '75',
+            checked: false
+          },
+          {
+            service: 'Replace Plastic Strip on Glass Door',
+            budget: '30',
+            checked: false
+          }
+        ]
       }
     ]
   },
   {
-    type: 'bathtub',
+    type: 'Bathtub Shower',
     packages: [
       {
         title: 'Essential Package',
         budget: '299',
         services:
-          'steam clean of tile and grout, glass cleaning, all shower fixtures & remove and replace all silicone caulking'
+          'steam clean of tile and grout, glass cleaning, all shower fixtures & remove and replace all silicone caulking',
+        add_ons: [
+          {
+            service: 'Traces of Black Mould/Mildew',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Missing/DamagedGrout',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Glass Door Cleaning',
+            budget: '75',
+            checked: false
+          },
+          {
+            service: 'Window',
+            budget: '49',
+            checked: false
+          }
+        ]
       },
       {
         title: 'Complete Package',
         budget: '499',
         services:
-          'Essential Package PLUS colour sealing of all grout lines on walls and ceiling, custom colours available'
-      }
-    ],
-    add_ons: [
-      {
-        service: 'Traces of Black Mould/Mildew',
-        budget: '99'
-      },
-      {
-        service: 'Rectangular/Larger Size Shower',
-        budget: '99'
-      },
-      {
-        service: 'Missing/DamagedGrout',
-        budget: '99'
-      },
-      {
-        service: 'Glass Door Cleaning',
-        budget: '75'
-      },
-      {
-        service: 'Window',
-        budget: '49'
+          'Essential Package PLUS colour sealing of all grout lines on walls and ceiling, custom colours available',
+        add_ons: [
+          {
+            service: 'Traces of Black Mould/Mildew',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Missing/DamagedGrout',
+            budget: '99',
+            checked: false
+          },
+          {
+            service: 'Glass Door Cleaning',
+            budget: '75',
+            checked: false
+          },
+          {
+            service: 'Window',
+            budget: '49',
+            checked: false
+          }
+        ]
       }
     ]
+  },
+  {
+    type: 'Bathtub Floor'
+  },
+  {
+    type: 'Multiple Bathtub and Shower'
   }
 ];
 
@@ -240,7 +327,8 @@ function ColorlibStepIcon(props) {
   const icons = {
     1: <SettingsIcon />,
     2: <GroupAddIcon />,
-    3: <VideoLabelIcon />
+    3: <VideoLabelIcon />,
+    4: <VideoLabelIcon />
   };
 
   return (
@@ -287,9 +375,18 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1)
   }
 }));
+const BoxStyle = styled(Box)((theme) => ({
+  width: '70%',
+  marginTop: '5vh',
+
+  '&.fullWidth': {
+    width: '100%',
+    marginTop: '0vh'
+  }
+}));
 
 function getSteps() {
-  return ['Select shower type', 'Service packages', 'Select date and time'];
+  return ['Select shower type', 'Get personal data', 'Service packages', 'Select date and time'];
 }
 
 function getStepContent(step) {
@@ -299,7 +396,9 @@ function getStepContent(step) {
     case 1:
       return 'Lets save your progress before continuing.';
     case 2:
-      return 'Select date and time to start.';
+      return 'Select service and add on';
+    case 3:
+      return 'Select date and time to have a call';
     default:
       return 'Unknown step';
   }
@@ -311,6 +410,15 @@ export default function PageProcessing() {
 
   const [activeStep, setActiveStep] = useState(0);
   const [bookData, setBookData] = useState({});
+  const [validation, setValidation] = useState({
+    name: false,
+    email: false,
+    validEmail: false,
+    phone: false,
+    validPhone: false,
+    postal: false,
+    validPostal: false
+  });
 
   const steps = getSteps(); // ==3
 
@@ -319,6 +427,9 @@ export default function PageProcessing() {
   };
   const handlePersonalData = (personalData) => {
     setBookData({ ...bookData, personalData });
+  };
+  const handleAddOnChecking = (serviceTypeDataWithCheckedValue) => {
+    setBookData({ ...bookData, serviceTypeData: serviceTypeDataWithCheckedValue });
   };
 
   const getServiceAndNext = (value) => {
@@ -332,8 +443,41 @@ export default function PageProcessing() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleNext = () => {
-    setActiveStep((preActiveStep) => preActiveStep + 1);
+  const handleNext = (packageWithAddons) => {
+    console.log(bookData);
+    if (activeStep === 1) {
+      if (bookData.personalData.name.length === 0) {
+        setValidation({ name: true });
+      } else if (bookData.personalData.email.length === 0) {
+        setValidation({ email: true });
+      } else if (
+        bookData.personalData.email.match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        ) === false
+      ) {
+        setValidation({ validEmail: true });
+      } else if (bookData.personalData.phoneNumber.length === 0) {
+        setValidation({ phone: true });
+      } else if (
+        Number.isNaN(Number(bookData.personalData.phoneNumber)) ||
+        bookData.personalData.phoneNumber.length < 9
+      ) {
+        setValidation({ validPhone: true });
+      } else if (bookData.personalData.postalCode.length === 0) {
+        setValidation({ postal: true });
+      } else if (
+        Number.isNaN(Number(bookData.personalData.postalCode)) ||
+        bookData.personalData.postalCode.length < 5
+      ) {
+        setValidation({ validPostal: true });
+      } else {
+        setActiveStep((preActiveStep) => preActiveStep + 1);
+      }
+    } else if (activeStep === 2) {
+      setBookData({ ...bookData, selectedPackage: packageWithAddons });
+      console.log(bookData);
+      setActiveStep((preActiveStep) => preActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -367,14 +511,17 @@ export default function PageProcessing() {
               </Step>
             ))}
           </Stepper>
-          <Box
-            sx={{ width: '50%', marginTop: '5vh', [theme.breakpoints.down('md')]: { width: '100%', marginTop: '1vh' } }}
+          <BoxStyle
+            className={activeStep === 2 && 'fullWidth'}
+            sx={{
+              [theme.breakpoints.down('md')]: { width: '100%', marginTop: '1vh' }
+            }}
           >
             {activeStep === steps.length ? (
               <div>
                 <Typography className={classes.instructions}>All steps completed - you&apos;re finished</Typography>
                 <Button onClick={handleReset} className={classes.button}>
-                  Reset
+                  Book Now
                 </Button>
               </div>
             ) : (
@@ -392,12 +539,60 @@ export default function PageProcessing() {
                   <Divider />
                   <Box m={4} />
                   {activeStep === 0 && <SelectType onNext={getServiceAndNext} />}
-                  {activeStep === 1 && <GetPersonalData getPersonalDataProps={handlePersonalData} />}
-                  {activeStep === 2 && <Typography>This is third</Typography>}
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                  {activeStep === 1 && (
+                    <GetPersonalData getPersonalDataProps={handlePersonalData} validationProps={validation} />
+                  )}
+                  {activeStep === 2 && (
+                    <>
+                      {bookData.serviceTypeData.type === 'Stand Up Shower' ||
+                      bookData.serviceTypeData.type === 'Bathtub Shower' ? (
+                        <SelectPackage
+                          handlePackageData={bookData}
+                          onNext={handleNext}
+                          bookDataWithCheckedValue={handleAddOnChecking}
+                        />
+                      ) : (
+                        <Typography>This is</Typography>
+                      )}
+                    </>
+                  )}
+                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width: '70%' }}>
                     {activeStep === 1 && (
                       <Button
-                        color="inherit"
+                        // color="inherit"
+                        fullWidth
+                        size="large"
+                        variant="contained"
+                        // disabled={activeStep === 0}
+                        onClick={handleNext}
+                        sx={{ mr: 1 }}
+                        // startIcon={<ArrowBackIosIcon />}
+                      >
+                        Next
+                      </Button>
+                    )}
+                    {activeStep === 2 &&
+                      (bookData.serviceTypeData.type === 'Bathtub Floor' ||
+                        bookData.serviceTypeData.type === 'Multiple Bathtub and Shower') && (
+                        <Button
+                          // color="inherit"
+                          fullWidth
+                          size="large"
+                          variant="contained"
+                          // disabled={activeStep === 0}
+                          onClick={handleNext}
+                          sx={{ mr: 1 }}
+                          // startIcon={<ArrowBackIosIcon />}
+                        >
+                          Next
+                        </Button>
+                      )}
+                    {activeStep === 3 && (
+                      <Button
+                        // color="inherit"
+                        fullWidth
+                        size="large"
+                        variant="contained"
                         // disabled={activeStep === 0}
                         onClick={handleNext}
                         sx={{ mr: 1 }}
@@ -410,7 +605,7 @@ export default function PageProcessing() {
                 </CardContent>
               </Card>
             )}
-          </Box>
+          </BoxStyle>
         </div>
       </Container>
     </Page>

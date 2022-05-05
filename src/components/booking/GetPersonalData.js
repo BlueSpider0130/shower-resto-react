@@ -25,16 +25,17 @@ import { varFadeIn, varWrapEnter, varFadeInRight, TextAnimate, MotionInView } fr
 // ----------------------------------------------------------------------
 
 GetPersonalData.propTypes = {
-  getPersonalDataProps: PropTypes.func
+  getPersonalDataProps: PropTypes.func,
+  validationProps: PropTypes.object
 };
 
-export default function GetPersonalData({ getPersonalDataProps }) {
+export default function GetPersonalData({ getPersonalDataProps, validationProps }) {
   const { themeColor, onChangeColor, colorOption } = useSettings();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [postalCode, setPostalCode] = useState('');
+  const [name, setName] = useState('Vadim Postnicov');
+  const [email, setEmail] = useState('topwebdev.0612@gmail.com');
+  const [phoneNumber, setPhoneNumber] = useState('6135550513');
+  const [postalCode, setPostalCode] = useState('98012');
 
   const [hasName, setHasName] = useState(false);
   const [hasEmail, setHasEmail] = useState(false);
@@ -61,6 +62,31 @@ export default function GetPersonalData({ getPersonalDataProps }) {
   useEffect(() => {
     getPersonalDataProps(personalData);
   }, [personalData]);
+
+  useEffect(() => {
+    if (validationProps.name) {
+      setHasName(true);
+      setHasNameErrorText('The name is required!');
+    } else if (validationProps.email) {
+      setHasEmail(true);
+      setHasEmailErrorText('The email is required!');
+    } else if (validationProps.validEmail) {
+      setHasEmail(true);
+      setHasEmailErrorText('Please provide correct email!');
+    } else if (validationProps.phone) {
+      setHasPhoneNumber(true);
+      setHasPhoneNumberErrorText('The phone number is required!');
+    } else if (validationProps.validPhone) {
+      setHasPhoneNumber(true);
+      setHasPhoneNumberErrorText('Please provide correct phone number!');
+    } else if (validationProps.postal) {
+      setHasPostalCode(true);
+      setHasPostalCodeErrorText('The postal code is required!');
+    } else if (validationProps.validPostal) {
+      setHasPostalCode(true);
+      setHasPostalCodeErrorText('Please provide correct postal code!');
+    }
+  }, [validationProps]);
 
   const handleChangeName = (e) => {
     if (e.target.value.length === 0) {

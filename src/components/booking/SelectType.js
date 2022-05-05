@@ -31,19 +31,19 @@ export default function SelectTypeForm({ onNext }) {
       variants={varFadeInRight}
     >
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <StyledIcon icon={showerIcon} onClick={() => onNext('stand-up')} />
+        <StyledIcon icon={showerIcon} onClick={() => onNext('Stand Up Shower')} />
         <Typography>Stand Up Shower</Typography>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <StyledIcon icon={bathtubLight} onClick={() => onNext('bathtub')} />
+        <StyledIcon icon={bathtubLight} onClick={() => onNext('Bathtub Shower')} />
         <Typography>Bathtub Shower</Typography>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <StyledIcon icon={quicktilesIcon} onClick={() => onNext('floor')} />
+        <StyledIcon icon={quicktilesIcon} onClick={() => onNext('Bathtub Floor')} />
         <Typography>Bathroom Floor</Typography>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        <StyledIcon icon={arrowBoth24} onClick={() => onNext('multiple')} />
+        <StyledIcon icon={arrowBoth24} onClick={() => onNext('Multiple Bathtub and Shower')} />
         <Typography>Multiple Showers or Bathrooms</Typography>
       </Box>
     </Box>
