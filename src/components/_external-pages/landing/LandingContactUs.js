@@ -2,29 +2,13 @@
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import { Box, Grid, Container, Typography } from '@material-ui/core';
 //
-import { MotionInView, varFadeInUp, varFadeInDown } from '../../animate';
-import { ContactHero, ContactForm, ContactMap } from '../contact';
+import { ContactForm, ContactMap } from '../contact';
 
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(28, 0),
   backgroundColor: theme.palette.grey[900]
-}));
-
-const ContentStyle = styled('div')(({ theme }) => ({
-  textAlign: 'center',
-  position: 'relative',
-  marginBottom: theme.spacing(10),
-  [theme.breakpoints.up('md')]: {
-    height: '100%',
-    marginBottom: 0,
-    textAlign: 'left',
-    display: 'inline-flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  }
 }));
 
 // ----------------------------------------------------------------------

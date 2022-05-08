@@ -1,9 +1,9 @@
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Box, Grid, Container, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
+import { Grid, Container, Typography, Card } from '@material-ui/core';
 import { CarouselThumbnail } from '../../carousel';
 //
-import { MotionInView, varFadeInUp, varFadeInDown } from '../../animate';
+import { MotionInView, varFadeInUp } from '../../animate';
 // utils
 import { mockImgFeed } from '../../../utils/mockImages';
 
@@ -12,21 +12,6 @@ import { mockImgFeed } from '../../../utils/mockImages';
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(28, 0),
   backgroundColor: theme.palette.grey[100]
-}));
-
-const ContentStyle = styled('div')(({ theme }) => ({
-  textAlign: 'center',
-  position: 'relative',
-  marginBottom: theme.spacing(10),
-  [theme.breakpoints.up('md')]: {
-    height: '100%',
-    marginBottom: 0,
-    textAlign: 'left',
-    display: 'inline-flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  }
 }));
 
 // ----------------------------------------------------------------------

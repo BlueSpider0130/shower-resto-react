@@ -1,14 +1,10 @@
 import PropTypes from 'prop-types';
-import { Icon } from '@iconify/react';
-import { motion } from 'framer-motion';
 import { Link as ScrollLink } from 'react-scroll';
 import { useState, useEffect } from 'react';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
-import arrowIosUpwardFill from '@iconify/icons-eva/arrow-ios-upward-fill';
-import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Box, Link, Grid, List, Stack, Popover, ListItem, ListSubheader, CardActionArea } from '@material-ui/core';
+import { Box, Stack } from '@material-ui/core';
 
 // ----------------------------------------------------------------------
 
@@ -52,17 +48,12 @@ function IconBullet({ type = 'item' }) {
 
 MenuDesktopItem.propTypes = {
   item: PropTypes.object,
-  pathname: PropTypes.string,
   isHome: PropTypes.bool,
-  isOffset: PropTypes.bool,
-  isOpen: PropTypes.bool,
-  onOpen: PropTypes.func,
-  onClose: PropTypes.func
+  isOffset: PropTypes.bool
 };
 
-function MenuDesktopItem({ item, pathname, isHome, isOpen, isOffset, onOpen, onClose }) {
-  const { title, path, children } = item;
-  const isActive = pathname === path;
+function MenuDesktopItem({ item, isHome, isOffset }) {
+  const { title, path } = item;
 
   // if (children) {
   //   return (

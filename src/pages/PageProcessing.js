@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
@@ -15,22 +15,21 @@ import {
   CardHeader,
   CardContent,
   Divider,
-  Box,
-  Stack,
-  TextField
+  Box
 } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 import clsx from 'clsx';
-import { Icon } from '@iconify/react';
 import Check from '@material-ui/icons/Check';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import SettingsIcon from '@material-ui/icons/Settings';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import VideoLabelIcon from '@material-ui/icons/VideoLabel';
-import { varFadeIn, varWrapEnter, varFadeInRight, TextAnimate, MotionInView } from '../components/animate';
-import { SelectType, GetPersonalData, SelectPackage } from '../components/booking';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
+import BathtubIcon from '@material-ui/icons/Bathtub';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import { SelectType, GetPersonalData, SelectPackage, SelectDate } from '../components/booking';
 // components
 import Page from '../components/Page';
 
+import { PATH_DASHBOARD } from '../routes/paths';
 // ----------------------------------------------------------------------
 const SERVICE_DATA = [
   {
@@ -205,29 +204,6 @@ const SERVICE_DATA = [
   }
 ];
 
-const QontoConnector = withStyles({
-  alternativeLabel: {
-    top: 10,
-    left: 'calc(-50% + 16px)',
-    right: 'calc(50% + 16px)'
-  },
-  active: {
-    '& $line': {
-      borderColor: '#784af4'
-    }
-  },
-  completed: {
-    '& $line': {
-      borderColor: '#784af4'
-    }
-  },
-  line: {
-    borderColor: '#eaeaf0',
-    borderTopWidth: 3,
-    borderRadius: 1
-  }
-})(StepConnector);
-
 const useQontoStepIconStyles = makeStyles({
   root: {
     color: '#eaeaf0',
@@ -325,10 +301,10 @@ function ColorlibStepIcon(props) {
   const { active, completed } = props;
 
   const icons = {
-    1: <SettingsIcon />,
-    2: <GroupAddIcon />,
-    3: <VideoLabelIcon />,
-    4: <VideoLabelIcon />
+    1: <PlaylistAddCheckIcon />,
+    2: <ContactMailIcon />,
+    3: <BathtubIcon />,
+    4: <DateRangeIcon />
   };
 
   return (
@@ -375,7 +351,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1)
   }
 }));
-const BoxStyle = styled(Box)((theme) => ({
+const BoxStyle = styled(Box)(() => ({
   width: '70%',
   marginTop: '5vh',
 
@@ -398,7 +374,7 @@ function getStepContent(step) {
     case 2:
       return 'Select service and add on';
     case 3:
-      return 'Select date and time to have a call';
+      return 'Select date and time to book.';
     default:
       return 'Unknown step';
   }
@@ -406,7 +382,9 @@ function getStepContent(step) {
 
 export default function PageProcessing() {
   const theme = useTheme();
+  const navigate = useNavigate();
   const classes = useStyles();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [activeStep, setActiveStep] = useState(0);
   const [bookData, setBookData] = useState({});
@@ -430,6 +408,9 @@ export default function PageProcessing() {
   };
   const handleAddOnChecking = (serviceTypeDataWithCheckedValue) => {
     setBookData({ ...bookData, serviceTypeData: serviceTypeDataWithCheckedValue });
+  };
+  const handleSetDate = (dateOfBooking, totalBudget) => {
+    setBookData({ ...bookData, dateOfBooking, totalBudget });
   };
 
   const getServiceAndNext = (value) => {
@@ -474,16 +455,24 @@ export default function PageProcessing() {
         setActiveStep((preActiveStep) => preActiveStep + 1);
       }
     } else if (activeStep === 2) {
-      setBookData({ ...bookData, selectedPackage: packageWithAddons });
-      console.log(bookData);
-      setActiveStep((preActiveStep) => preActiveStep + 1);
+      if (bookData.serviceTypeData.type === 'Stand Up Shower' || bookData.serviceTypeData.type === 'Bathtub Shower') {
+        setBookData({ ...bookData, selectedPackage: packageWithAddons });
+        setActiveStep((preActiveStep) => preActiveStep + 1);
+      } else {
+        setBookData({ ...bookData, selectedPackage: null });
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      }
+    } else if (activeStep === 3) {
+      console.log('This is date changed at last', bookData);
+      navigate(PATH_DASHBOARD.general.pageConfirm, { infoBooking: bookData });
+
+      enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
     }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-  const navigate = useNavigate();
   const routeBack = () => {
     navigate('/');
   };
@@ -526,7 +515,22 @@ export default function PageProcessing() {
               </div>
             ) : (
               <Card>
-                <CardHeader title={getStepContent(activeStep)} />
+                {(activeStep === 0 || activeStep === 1) && <CardHeader title={getStepContent(activeStep)} />}
+                {activeStep === 2 &&
+                  (bookData.serviceTypeData.type === 'Bathtub Floor' ||
+                    bookData.serviceTypeData.type === 'Multiple Bathtub and Shower') && (
+                    <CardHeader title="Option to have a call." />
+                  )}
+                {(activeStep === 2 || activeStep === 3) &&
+                  bookData.serviceTypeData.type !== 'Bathtub Floor' &&
+                  bookData.serviceTypeData.type !== 'Multiple Bathtub and Shower' && (
+                    <CardHeader title={getStepContent(activeStep)} />
+                  )}
+                {activeStep === 3 &&
+                  (bookData.serviceTypeData.type === 'Bathtub Floor' ||
+                    bookData.serviceTypeData.type === 'Multiple Bathtub and Shower') && (
+                    <CardHeader title="Select date to have a call" />
+                  )}
                 <CardContent
                   sx={{
                     display: 'flex',
@@ -537,7 +541,7 @@ export default function PageProcessing() {
                   }}
                 >
                   <Divider />
-                  <Box m={4} />
+                  {activeStep !== 3 && <Box m={4} />}
                   {activeStep === 0 && <SelectType onNext={getServiceAndNext} />}
                   {activeStep === 1 && (
                     <GetPersonalData getPersonalDataProps={handlePersonalData} validationProps={validation} />
@@ -552,10 +556,11 @@ export default function PageProcessing() {
                           bookDataWithCheckedValue={handleAddOnChecking}
                         />
                       ) : (
-                        <Typography>This is</Typography>
+                        <Typography>Let’s talk about it! Please select to schedule a call with me via next.</Typography>
                       )}
                     </>
                   )}
+                  {activeStep === 3 && <SelectDate getBookDatas={bookData} setBookDate={handleSetDate} />}
                   <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width: '70%' }}>
                     {activeStep === 1 && (
                       <Button
@@ -598,7 +603,7 @@ export default function PageProcessing() {
                         sx={{ mr: 1 }}
                         // startIcon={<ArrowBackIosIcon />}
                       >
-                        Next
+                        Book Now
                       </Button>
                     )}
                   </Box>

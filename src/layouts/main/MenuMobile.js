@@ -8,7 +8,7 @@ import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
 // material
 import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
-import { Box, List, Drawer, Link, Collapse, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import { Box, List, Drawer, Link, Collapse, ListItemText, ListItemIcon } from '@material-ui/core';
 // components
 import Logo from '../../components/Logo';
 import NavSection from '../../components/NavSection';

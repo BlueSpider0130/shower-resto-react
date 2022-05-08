@@ -11,7 +11,8 @@ const ROOTS_DASHBOARD = '/book';
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   general: {
-    pageShower: path(ROOTS_DASHBOARD, '/processing')
+    pageShower: path(ROOTS_DASHBOARD, '/processing'),
+    pageConfirm: path(ROOTS_DASHBOARD, '/confirm')
   },
   app: {
     root: path(ROOTS_DASHBOARD, '/app'),

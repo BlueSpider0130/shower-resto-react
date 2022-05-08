@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { alpha, makeStyles, withStyles, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
-import { Icon } from '@iconify/react';
-import showerIcon from '@iconify/icons-emojione-monotone/shower';
-import bathtubLight from '@iconify/icons-ph/bathtub-light';
-import arrowBoth24 from '@iconify/icons-octicon/arrow-both-24';
-import quicktilesIcon from '@iconify/icons-arcticons/quicktiles';
 import {
   Box,
   Button,
@@ -13,19 +7,12 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Paper,
-  Radio,
-  RadioGroup,
-  CardActionArea,
   FormControlLabel,
   Typography,
   Stack,
-  Checkbox,
-  TextField
+  Checkbox
 } from '@material-ui/core';
 // hooks
-import useSettings from '../../hooks/useSettings';
-import { varFadeIn, varWrapEnter, varFadeInRight, TextAnimate, MotionInView } from '../animate';
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +23,6 @@ SelectPackage.propTypes = {
 };
 
 export default function SelectPackage({ handlePackageData, onNext, bookDataWithCheckedValue }) {
-  const { themeColor, onChangeColor, colorOption } = useSettings();
   const serviceDatas = handlePackageData.serviceTypeData;
   // const [checkState, setCheckState] = useState([]);
   const handleChecking = (indexPackage, indexAddOn) => {
@@ -44,7 +30,7 @@ export default function SelectPackage({ handlePackageData, onNext, bookDataWithC
     serviceDatas.packages[indexPackage].add_ons[indexAddOn].checked =
       !serviceDatas.packages[indexPackage].add_ons[indexAddOn].checked;
     bookDataWithCheckedValue(serviceDatas);
-    console.log(handlePackageData);
+    // console.log(handlePackageData);
   };
 
   // useEffect(() => {
@@ -53,7 +39,6 @@ export default function SelectPackage({ handlePackageData, onNext, bookDataWithC
 
   return (
     <Stack spacing={3} sx={{ width: '100%' }}>
-      {/* {console.log(serviceDatas)} */}
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography>{serviceDatas.type}</Typography>
@@ -74,7 +59,6 @@ export default function SelectPackage({ handlePackageData, onNext, bookDataWithC
                     <FormControlLabel
                       control={
                         <Checkbox
-                          // value={addOn.checked}
                           checked={addOn.checked}
                           onChange={() => handleChecking(indexPackage, indexAddOn)}
                           name={`${indexAddOn}`}

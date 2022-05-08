@@ -4,11 +4,11 @@ import flashFill from '@iconify/icons-eva/flash-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Button, Box, Link, Container, Typography, Stack } from '@material-ui/core';
+import { Button, Box, Container, Typography, Stack } from '@material-ui/core';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 //
-import { varFadeIn, varFadeInUp, varWrapEnter, varFadeInRight } from '../../animate';
+import { varWrapEnter, varFadeInRight } from '../../animate';
 
 // ----------------------------------------------------------------------
 
@@ -39,14 +39,6 @@ const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(({ them
     textAlign: 'left'
   }
 }));
-
-const HeroOverlayStyle = styled(motion.img)({
-  zIndex: 9,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  position: 'absolute'
-});
 
 const HeroImgStyle = styled(motion.video)(({ theme }) => ({
   top: 0,

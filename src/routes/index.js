@@ -2,7 +2,6 @@ import { Suspense, lazy } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 // layouts
 import MainLayout from '../layouts/main';
-import DashboardLayout from '../layouts/dashboard';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // components
 import LoadingScreen from '../components/LoadingScreen';
@@ -43,7 +42,11 @@ export default function Router() {
       element: <MainLayout />,
       children: [
         { path: '/', element: <Navigate to="/book/processing" replace /> },
-        { path: 'processing', element: <PageProcessing /> },
+        {
+          path: 'processing',
+          children: [{ path: '/', element: <PageProcessing /> }]
+        },
+        { path: 'confirm', element: <PageConfirm /> },
         {
           path: 'app',
           children: [
@@ -81,8 +84,7 @@ export default function Router() {
 
 // Dashboard
 const PageProcessing = Loadable(lazy(() => import('../pages/PageProcessing')));
-const PageTwo = Loadable(lazy(() => import('../pages/PageTwo')));
-const PageThree = Loadable(lazy(() => import('../pages/PageThree')));
+const PageConfirm = Loadable(lazy(() => import('../pages/PageConfirm')));
 const PageFour = Loadable(lazy(() => import('../pages/PageFour')));
 const PageFive = Loadable(lazy(() => import('../pages/PageFive')));
 const PageSix = Loadable(lazy(() => import('../pages/PageSix')));

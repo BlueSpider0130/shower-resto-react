@@ -32,7 +32,7 @@ const PRIMARY = {
   lighter: '#C8FACD',
   light: '#5BE584',
   main: '#000000',
-  dark: '#ffffff',
+  dark: '#808080',
   darker: '#005249',
   contrastText: '#fff'
 };
@@ -95,7 +95,7 @@ const COMMON = {
   error: { ...ERROR },
   grey: GREY,
   gradients: GRADIENTS,
-  divider: GREY[500_24],
+  divider: GREY[500],
   action: {
     hover: GREY[500_8],
     selected: GREY[500_16],
@@ -111,7 +111,7 @@ const palette = {
   light: {
     ...COMMON,
     text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
-    background: { paper: '#fff', default: '#fff', neutral: GREY[200] },
+    background: { paper: '#fff', default: '#fff', neutral: GREY[300] },
     action: { active: GREY[600], ...COMMON.action }
   },
   dark: {

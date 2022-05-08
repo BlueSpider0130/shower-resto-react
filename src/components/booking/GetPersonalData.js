@@ -1,26 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { alpha, makeStyles, withStyles, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
-import { Icon } from '@iconify/react';
-import showerIcon from '@iconify/icons-emojione-monotone/shower';
-import bathtubLight from '@iconify/icons-ph/bathtub-light';
-import arrowBoth24 from '@iconify/icons-octicon/arrow-both-24';
-import quicktilesIcon from '@iconify/icons-arcticons/quicktiles';
-import {
-  Box,
-  Grid,
-  Paper,
-  Radio,
-  RadioGroup,
-  CardActionArea,
-  FormControlLabel,
-  Typography,
-  Stack,
-  TextField
-} from '@material-ui/core';
+import { Stack, TextField } from '@material-ui/core';
 // hooks
-import useSettings from '../../hooks/useSettings';
-import { varFadeIn, varWrapEnter, varFadeInRight, TextAnimate, MotionInView } from '../animate';
+import { varFadeInRight, MotionInView } from '../animate';
 
 // ----------------------------------------------------------------------
 
@@ -30,8 +12,6 @@ GetPersonalData.propTypes = {
 };
 
 export default function GetPersonalData({ getPersonalDataProps, validationProps }) {
-  const { themeColor, onChangeColor, colorOption } = useSettings();
-
   const [name, setName] = useState('Vadim Postnicov');
   const [email, setEmail] = useState('topwebdev.0612@gmail.com');
   const [phoneNumber, setPhoneNumber] = useState('6135550513');
@@ -61,6 +41,7 @@ export default function GetPersonalData({ getPersonalDataProps, validationProps 
 
   useEffect(() => {
     getPersonalDataProps(personalData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [personalData]);
 
   useEffect(() => {

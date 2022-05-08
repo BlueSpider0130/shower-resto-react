@@ -1,5 +1,4 @@
 import { Link as RouterLink, Outlet } from 'react-router-dom';
-import PropTypes from 'prop-types';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 // components

@@ -6,7 +6,6 @@ import {
   LandingHero,
   LandingShower,
   LandingWalkInShower,
-  LandingAdvertisement,
   LandingWalkSubscription,
   LandingBathtubSubscription,
   LandingWhyShower,

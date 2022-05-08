@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
-import { alpha, makeStyles, withStyles, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
+import { experimentalStyled as styled } from '@material-ui/core/styles';
 import { Icon } from '@iconify/react';
 import showerIcon from '@iconify/icons-emojione-monotone/shower';
 import bathtubLight from '@iconify/icons-ph/bathtub-light';
 import arrowBoth24 from '@iconify/icons-octicon/arrow-both-24';
 import quicktilesIcon from '@iconify/icons-arcticons/quicktiles';
-import { Box, Grid, Paper, Radio, RadioGroup, CardActionArea, FormControlLabel, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 // hooks
-import useSettings from '../../hooks/useSettings';
-import { varFadeIn, varWrapEnter, varFadeInRight, TextAnimate, MotionInView } from '../animate';
+import { varFadeInRight } from '../animate';
 
 // ----------------------------------------------------------------------
 const StyledIcon = styled(Icon)({
@@ -23,8 +22,6 @@ SelectTypeForm.propTypes = {
 };
 
 export default function SelectTypeForm({ onNext }) {
-  const { themeColor, onChangeColor, colorOption } = useSettings();
-
   return (
     <Box
       sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}

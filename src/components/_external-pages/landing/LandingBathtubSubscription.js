@@ -1,15 +1,12 @@
 // material
-import { Icon } from '@iconify/react';
-import medalIcon from '@iconify/icons-bx/medal';
-import trophyIcon from '@iconify/icons-la/trophy';
-import tagIcon from '@iconify/icons-file-icons/tag';
-import trafficLightOutline from '@iconify/icons-mdi/traffic-light-outline';
+import axios from 'axios';
 import CheckIcon from '@material-ui/icons/Check';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
-import { alpha, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
-import { Box, Button, Grid, Card, Container, Typography, useMediaQuery } from '@material-ui/core';
+import { alpha, experimentalStyled as styled } from '@material-ui/core/styles';
+import { Box, Button, Grid, Card, Container, Typography } from '@material-ui/core';
 //
+
 import { varFadeInUp, MotionInView, varFadeInDown } from '../../animate';
 
 // ----------------------------------------------------------------------
@@ -32,8 +29,6 @@ const CARDS = [
     service: ['grout colour sealing', 'colour sealing of all grout lines on walls, custom colours available']
   }
 ];
-
-const shadowIcon = (color) => `drop-shadow(2px 2px 2px ${alpha(color, 0.48)})`;
 
 const RootStyle = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(15),
@@ -100,20 +95,10 @@ const CardStyle = styled(Card)(({ theme }) => {
   };
 });
 
-const CardIconStyle = styled('img')(({ theme }) => ({
-  width: 40,
-  height: 40,
-  margin: 'auto',
-  marginBottom: theme.spacing(10),
-  filter: shadowIcon(theme.palette.primary.main)
-}));
-
 // ----------------------------------------------------------------------
 
 export default function BathtubSubscription() {
-  const theme = useTheme();
   // const isLight = theme.palette.mode === 'light';
-  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
     <RootStyle>
@@ -185,6 +170,7 @@ export default function BathtubSubscription() {
                 <Button
                   size="large"
                   variant="contained"
+                  // onClick={serveTest}
                   // component={RouterLink}
                   // to={PATH_DASHBOARD.root}
                   startIcon={<ArrowRightAltIcon />}
