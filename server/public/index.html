@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lange="en">
+  <head>
+    <script
+      type="text/javascript"
+      src="https://sandbox.web.squarecdn.com/v1/square.js"
+    ></script>
+    <script>
+      const locationId = 'LHWPSKK4YPV8R';
+      const appId = 'sandbox-sq0idb-GAIKxUpEwpJQxZF5qq8quA';
+
+      async function initializeCard(payments) {
+        const card = await payments.card();
+        await card.attach('#card-container');
+        return card;
+      }
+
+      // Call this function to send a payment token, buyer name, and other details
+      // to the project server code so that a payment can be created with
+      // Payments API
+      async function createPayment(token, amount) {
+        const body = JSON.stringify({
+          locationId,
+          sourceId: token,
+          amount
+        });
+        const paymentResponse = await fetch('/payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body,
+        });
+        if (paymentResponse.ok) {
+          return paymentResponse.json();
+        }
+        const errorBody = await paymentResponse.text();
+        throw new Error(errorBody);
+      }
+
+      // This function tokenizes a payment method.
+      // The ‘error’ thrown from this async function denotes a failed tokenization,
+      // which is due to buyer error (such as an expired card). It is up to the
+      // developer to handle the error and provide the buyer the chance to fix
+      // their mistakes.
+      async function tokenize(paymentMethod) {
+        const tokenResult = await paymentMethod.tokenize();
+        if (tokenResult.status === 'OK') {
+          return tokenResult.token;
+        } else {
+          let errorMessage = `Tokenization failed-status: ${tokenResult.status}`;
+          if (tokenResult.errors) {
+            errorMessage += ` and errors: ${JSON.stringify(
+              tokenResult.errors
+            )}`;
+          }
+          throw new Error(errorMessage);
+        }
+      }
+
+      // Helper method for displaying the Payment Status on the screen.
+      // status is either SUCCESS or FAILURE;
+      function displayPaymentResults(status) {
+        const statusContainer = document.getElementById(
+          'payment-status-container'
+        );
+        if (status === 'SUCCESS') {
+          statusContainer.classList.remove('is-failure');
+          statusContainer.classList.add('is-success');
+        } else {
+          statusContainer.classList.remove('is-success');
+          statusContainer.classList.add('is-failure');
+        }
+
+        statusContainer.style.visibility = 'visible';
+      }
+
+      document.addEventListener('DOMContentLoaded', async function () {
+        if (!window.Square) {
+          throw new Error('Square.js failed to load properly');
+        }
+        const payments = window.Square.payments(appId, locationId);
+        let card;
+        try {
+          card = await initializeCard(payments);
+        } catch (e) {
+          console.error('Initializing Card failed', e);
+          return;
+        }
+
+        // Step 5.2: create card payment
+        async function handlePaymentMethodSubmission(event, paymentMethod, amount) {
+          event.preventDefault();
+
+          try {
+            // disable the submit button as we await tokenization and make a
+            // payment request.
+            cardButton.disabled = true;
+            const token = await tokenize(paymentMethod);
+            const paymentResults = await createPayment(token, amount);
+            displayPaymentResults('SUCCESS');
+
+            console.debug('Payment Success', paymentResults);
+          } catch (e) {
+            cardButton.disabled = false;
+            displayPaymentResults('FAILURE');
+            console.error(e.message);
+          }
+        }
+
+        const cardButton = document.getElementById('card-button');
+        cardButton.addEventListener('click', async function (event) {
+          const amount = parseInt(document.getElementById("amount").value);
+          console.log(amount);
+          await handlePaymentMethodSubmission(event, card, amount);
+        });
+      });
+    </script>
+
+    <meta charset="utf-8" />
+    <title>Square Web Payments Quickstart</title>
+    <link href="app.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <form id="payment-form">
+      <div id="card-container"></div>
+      <input id="amount" value="10">
+      <button id="card-button" type="button">Pay</button>
+    </form>
+    <div id="payment-status-container"></div>
+  </body>
+</html>

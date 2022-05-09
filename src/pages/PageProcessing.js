@@ -25,6 +25,7 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import BathtubIcon from '@material-ui/icons/Bathtub';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import axios from 'axios';
 import { SelectType, GetPersonalData, SelectPackage, SelectDate } from '../components/booking';
 // components
 import Page from '../components/Page';
@@ -424,7 +425,7 @@ export default function PageProcessing() {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleNext = (packageWithAddons) => {
+  const handleNext = async (packageWithAddons) => {
     console.log(bookData);
     if (activeStep === 1) {
       if (bookData.personalData.name.length === 0) {
@@ -464,8 +465,19 @@ export default function PageProcessing() {
       }
     } else if (activeStep === 3) {
       console.log('This is date changed at last', bookData);
-      navigate(PATH_DASHBOARD.general.pageConfirm, { infoBooking: bookData });
-
+      // dsaf
+      // back-end api calling
+      try {
+        const saveClientBookingDatas = await axios.post('http://localhost:7000/save-bookdata', bookData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log(saveClientBookingDatas);
+      } catch (error) {
+        console.log(error);
+      }
+      navigate(PATH_DASHBOARD.general.pageConfirm);
       enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
     }
   };

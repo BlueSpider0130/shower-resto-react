@@ -32,7 +32,7 @@ export default function SelectDate({ getBookDatas, setBookDate }) {
 
   useEffect(() => {
     console.log(date);
-    setBookDate(date);
+    setBookDate(date, sumAddOn);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 

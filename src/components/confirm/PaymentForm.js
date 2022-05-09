@@ -1,7 +1,9 @@
 // import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 // @mui
 import { Paper, Stack, Button, Popover, Typography } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 // components
 // import Iconify from '../../components/Iconify';
 // import { arDZ } from 'date-fns/locale';
@@ -26,7 +28,8 @@ async function tokenize(paymentMethod) {
 export default function PaymentNewCardForm() {
   const [isCVVInfoOpen, setIsCVVInfoOpen] = useState(null);
   const [card, setCard] = useState();
-  const [cardToken, setCardToken] = useState();
+  const [isPayProcessing, setIsPayProcessing] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const payments = window.Square.payments(appId, locationId);
   const buildPaymentForm = async () => {
@@ -44,42 +47,42 @@ export default function PaymentNewCardForm() {
     const cardButton = document.getElementById('card-button');
     try {
       // console.log('This is card', card);
-      cardButton.disabled = true;
+      setIsPayProcessing(true);
       const token = await tokenize(card);
       console.log('This is locationId', token);
       // setCardToken(token);
       console.log('This is cardToken', token);
 
       // api call via fetch to backend with lcationId & token
-      // const body = JSON.stringify({
-      //   locationId,
-      //   sourceId: token,
-      //   customerId: 'donkii'
-      // });
-      const paymentResponse = await fetch('http://localhost:3000/payment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          locationId,
-          sourceId: token,
-          customerId: 'donkii'
-        })
+      const body = JSON.stringify({
+        locationId,
+        sourceId: token
       });
+      const paymentResponse = await axios
+        .post('http://localhost:7000/payment', body, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((res) => {
+          console.log(res.data);
+          const { data } = res;
+          if (data.success) {
+            enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
+          }
+        });
 
-      if (paymentResponse.ok) {
-        return paymentResponse.json();
-        // displayPaymentResults('SUCCESS');
-      }
+      // if (paymentResponse.ok) {
+      //   return paymentResponse.json();
+      //   // displayPaymentResults('SUCCESS');
+      // }
 
-      const errorBody = await paymentResponse.text();
-      throw new Error(errorBody);
+      // const errorBody = await paymentResponse.text();
+      // throw new Error(errorBody);
     } catch (e) {
-      cardButton.disabled = false;
-      console.log('This is card', card);
+      setIsPayProcessing(false);
       // displayPaymentResults('FAILURE');
-      console.log(e.message);
+      console.log('This is error msg', e.message);
     }
   };
 
@@ -120,7 +123,7 @@ export default function PaymentNewCardForm() {
           </Stack>
 
           <Stack direction="row" spacing={2}>
-            <Button id="card-button" fullWidth variant="contained" onClick={payNowClick}>
+            <Button id="card-button" fullWidth variant="contained" disabled={isPayProcessing} onClick={payNowClick}>
               Pay $49
             </Button>
             <Button fullWidth>Skip now</Button>
