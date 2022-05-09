@@ -3,16 +3,17 @@
 /* eslint-disable prettier/prettier */
 const express = require('express');
 const randomUUID = require('crypto');
-const mysql = require('mysql');
+const nodemailer = require('nodemailer');
+// const mysql = require('mysql');
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'my_db'
-});
+// const connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: '',
+//   database: 'my_db'
+// });
 
-connection.connect();
+// connection.connect();
 // connection.query('SELECT 1 + 1 AS solution', (err, rows, fields) => {
 //   if (err) throw err;
 
@@ -107,13 +108,41 @@ async function createPayment(req, res) {
   });
 }
 
-async function saveBookData(req, res) {
-  // const request = await req;
+const transporter = nodemailer.createTransport({
+  port: 465,
+  host: 'smtp.gmail.com',
+  auth: {
+    user: 'topwebdev.0612@gmail.com',
+    pass: 'topwebdev061207310321'
+  },
+  secure: true
+});
 
+async function saveBookData(req, res) {
   const payload = await json(req);
-  console.log(payload);
-  // res.sendStatus(200);
-  res.status(200).send('ghfghfghfgh');
+  // console.log(payload);
+  const { dateOfBooking, personalData, selectedPackage } = payload;
+  const serviceType = payload.serviceTypeData.type;
+
+  const text = serviceType;
+  // eslint-disable-next-line no-template-curly-in-string
+  const html = '<b>Client name: `${personalData.name}`</b><br>Client email: `${personalData.email}</br>`';
+
+  const mailData = {
+    from: 'topwebdev.0612@gmail.com',
+    to: 'topwebdev.0612@gmail.com',
+    subject: selectedPackage ? 'Booking request' : 'Call request',
+    text,
+    html
+  };
+  transporter.sendMail(mailData, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    res.status(200).send({ message: 'mail send', message_id: info.messageId });
+  });
+
+  // res.status(200).send([payload]);
   // await send({
   //   success: true,
   //   data: 'this is response!!!'

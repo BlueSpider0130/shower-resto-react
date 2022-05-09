@@ -1,3 +1,4 @@
+// import React, { useState, useEffect } from 'react';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
 import { Typography, Stack } from '@material-ui/core';
@@ -21,7 +22,8 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function BillingInfo() {
-  // const { getFieldProps, isSubmitting } = formik;
+  const personalData = JSON.parse(localStorage.getItem('personalData'));
+  const { email, name, phoneNumber, postalCode } = personalData;
 
   return (
     <RootStyle>
@@ -30,19 +32,19 @@ export default function BillingInfo() {
       <Stack spacing={3} mt={5}>
         <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center' }}>
           <AccountBoxIcon />
-          &nbsp;Vadim Postnicov
+          &nbsp;{name}
         </Typography>
         <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center' }}>
           <DraftsIcon />
-          &nbsp;topwebdev.0612@gmail.com
+          &nbsp;{email}
         </Typography>
         <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center' }}>
           <PermPhoneMsgIcon />
-          &nbsp;9801659323
+          &nbsp;{phoneNumber}
         </Typography>
         <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center' }}>
           <RoomIcon />
-          &nbsp;98012
+          &nbsp;{postalCode}
         </Typography>
       </Stack>
     </RootStyle>

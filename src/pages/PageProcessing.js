@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
@@ -29,6 +29,8 @@ import axios from 'axios';
 import { SelectType, GetPersonalData, SelectPackage, SelectDate } from '../components/booking';
 // components
 import Page from '../components/Page';
+import { useDispatch, useSelector } from '../redux/store';
+import { setBookingData } from '../redux/slices/client';
 
 import { PATH_DASHBOARD } from '../routes/paths';
 // ----------------------------------------------------------------------
@@ -386,6 +388,9 @@ export default function PageProcessing() {
   const navigate = useNavigate();
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+
+  // const { bookingData } = useSelector((state) => state.client);
 
   const [activeStep, setActiveStep] = useState(0);
   const [bookData, setBookData] = useState({});
@@ -398,6 +403,7 @@ export default function PageProcessing() {
     postal: false,
     validPostal: false
   });
+  // const [isChangeDate, setIsChangeDate] = useState(true);
 
   const steps = getSteps(); // ==3
 
@@ -412,6 +418,7 @@ export default function PageProcessing() {
   };
   const handleSetDate = (dateOfBooking, totalBudget) => {
     setBookData({ ...bookData, dateOfBooking, totalBudget });
+    // setIsChangeDate(false);
   };
 
   const getServiceAndNext = (value) => {
@@ -453,6 +460,8 @@ export default function PageProcessing() {
       ) {
         setValidation({ validPostal: true });
       } else {
+        const { personalData } = bookData;
+        localStorage.setItem('personalData', JSON.stringify(personalData));
         setActiveStep((preActiveStep) => preActiveStep + 1);
       }
     } else if (activeStep === 2) {
@@ -465,22 +474,16 @@ export default function PageProcessing() {
       }
     } else if (activeStep === 3) {
       console.log('This is date changed at last', bookData);
-      // dsaf
       // back-end api calling
-      try {
-        const saveClientBookingDatas = await axios.post('http://localhost:7000/save-bookdata', bookData, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        console.log(saveClientBookingDatas);
-      } catch (error) {
-        console.log(error);
-      }
+      dispatch(setBookingData(bookData)); // redux api call to back-end
       navigate(PATH_DASHBOARD.general.pageConfirm);
       enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
     }
   };
+
+  // useEffect(() => {
+  //   console.log('HHHHHHHHHHH:', bookingData);
+  // }, [bookingData]);
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -610,7 +613,7 @@ export default function PageProcessing() {
                         fullWidth
                         size="large"
                         variant="contained"
-                        // disabled={activeStep === 0}
+                        // disabled={!bookData.totalBudget}
                         onClick={handleNext}
                         sx={{ mr: 1 }}
                         // startIcon={<ArrowBackIosIcon />}
