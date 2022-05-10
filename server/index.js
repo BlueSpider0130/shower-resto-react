@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable import/order */
 /* eslint-disable spaced-comment */
 /* eslint-disable prettier/prettier */
@@ -38,9 +39,21 @@ const { nanoid } = require('nanoid');
 const app = express();
 const PORT = process.env.PORT || 7000;
 
+const transporter = nodemailer.createTransport({
+  port: 465,
+  host: 'smtp.gmail.com',
+  auth: {
+    user: 'topwebdev.0612@gmail.com',
+    pass: 'topwebdev061207310321'
+  },
+  secure: true
+});
+
 async function createPayment(req, res) {
   const payload = await json(req);
   logger.debug(JSON.stringify(payload));
+  const { name, email, phoneNumber, postalCode } = payload;
+  console.log(name);
   await retry(async (bail, attempt) => {
     try {
       logger.debug('Creating payment', { attempt });
@@ -48,8 +61,8 @@ async function createPayment(req, res) {
       const idempotencyKey = payload.idempotencyKey || nanoid();
       //   const amount = payload.amount * 100;
       const createCustomer = {
-        givenName: 'Jong',
-        familyName: 'Postnicov',
+        givenName: name,
+        // familyName: 'Postnicov',
         address: {
           addressLine1: '1455 Market St',
           addressLine2: 'San Francisco, CA 94103'
@@ -96,6 +109,20 @@ async function createPayment(req, res) {
           orderId: result.payment.orderId
         }
       });
+      const html = `<b>Client name: ${name}</b><br><b>Client email: ${email}</b></br><br><b>Client phone number: ${phoneNumber}</b></br><br><b>Client Postalcode: ${postalCode}</b></br><br><b>You can check your square account to see.</b></br>`;
+      const mailData = {
+        from: email,
+        to: 'topwebdev.0612@gmail.com',
+        subject: 'Client paid $49 for escrow!',
+        html
+      };
+      transporter.sendMail(mailData, (error, info) => {
+        if (error) {
+          console.log(error);
+          // return res.status(500).json(error);
+        }
+        // res.status(200).send({ message: 'mail send', message_id: info.messageId });
+      });
     } catch (ex) {
       if (ex instanceof ApiError) {
         logger.error(ex.errors);
@@ -108,45 +135,51 @@ async function createPayment(req, res) {
   });
 }
 
-const transporter = nodemailer.createTransport({
-  port: 465,
-  host: 'smtp.gmail.com',
-  auth: {
-    user: 'topwebdev.0612@gmail.com',
-    pass: 'topwebdev061207310321'
-  },
-  secure: true
-});
-
-async function saveBookData(req, res) {
+async function sendBookData(req, res) {
+  let mailData;
   const payload = await json(req);
-  // console.log(payload);
   const { dateOfBooking, personalData, selectedPackage } = payload;
   const serviceType = payload.serviceTypeData.type;
+  if (selectedPackage) {
+    let emailBody = '';
+    let totalBudget = Number(selectedPackage.budget);
+    emailBody = `<br><b>SelectedPackage: ${selectedPackage.title} &nbsp; Budget: ${selectedPackage.budget}</b></br>`;
+    for (let i = 0; i < selectedPackage.add_ons.length; i++) {
+      if (selectedPackage.add_ons[i].checked === true) {
+        totalBudget += Number(selectedPackage.add_ons[i].budget);
+        emailBody += `<br>budget: ${selectedPackage.add_ons[i].budget}, service: ${selectedPackage.add_ons[i].service} </br>`;
+      }
+    }
+    emailBody += `<br><b>TotalBudget: ${totalBudget}</b></br><br><b>Date & Time: ${dateOfBooking}</b></br>`;
 
-  const text = serviceType;
-  // eslint-disable-next-line no-template-curly-in-string
-  const html = '<b>Client name: `${personalData.name}`</b><br>Client email: `${personalData.email}</br>`';
+    const text = serviceType;
+    // eslint-disable-next-line no-template-curly-in-string
+    const html = `<b>Client name: ${personalData.name}</b><br><b>Client email: ${personalData.email}</b></br><br><b>Client phone number: ${personalData.phoneNumber}</b></br><br><b>Client Postalcode: ${personalData.postalCode}</b></br><br> ${emailBody} </br>`;
 
-  const mailData = {
-    from: 'topwebdev.0612@gmail.com',
-    to: 'topwebdev.0612@gmail.com',
-    subject: selectedPackage ? 'Booking request' : 'Call request',
-    text,
-    html
-  };
+    mailData = {
+      from: personalData.email,
+      to: 'topwebdev.0612@gmail.com',
+      subject: selectedPackage ? 'Booking request' : 'Call request',
+      text,
+      html
+    };
+  } else {
+    mailData = {
+      from: personalData.email,
+      to: 'topwebdev.0612@gmail.com',
+      subject: 'Call request',
+      // text,
+      html: `<b>Client name: ${personalData.name}</b><br><b>Client email: ${personalData.email}</b></br><br><b>Client phone number: ${personalData.phoneNumber}</b></br><br><b>Client Postalcode: ${personalData.postalCode}</b></br><br><b>Date&Time: ${dateOfBooking}</b></br>`
+    };
+  }
+
   transporter.sendMail(mailData, (error, info) => {
     if (error) {
-      return console.log(error);
+      console.log(error);
+      return res.status(500).json(error);
     }
     res.status(200).send({ message: 'mail send', message_id: info.messageId });
   });
-
-  // res.status(200).send([payload]);
-  // await send({
-  //   success: true,
-  //   data: 'this is response!!!'
-  // });
 }
 
 app.use((req, res, next) => {
@@ -158,7 +191,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/payment', createPayment);
-app.post('/save-bookdata', saveBookData);
+app.post('/send-bookdata', sendBookData);
 
 app.listen(PORT, () => {
   console.log(`I am running again on port ${PORT}`);

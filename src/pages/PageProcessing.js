@@ -25,11 +25,12 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import BathtubIcon from '@material-ui/icons/Bathtub';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import axios from 'axios';
+import LoadingScreen from '../components/LoadingScreen';
+import { useSelector, useDispatch } from '../redux/store';
 import { SelectType, GetPersonalData, SelectPackage, SelectDate } from '../components/booking';
 // components
 import Page from '../components/Page';
-import { useDispatch, useSelector } from '../redux/store';
+
 import { setBookingData } from '../redux/slices/client';
 
 import { PATH_DASHBOARD } from '../routes/paths';
@@ -390,7 +391,12 @@ export default function PageProcessing() {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
-  // const { bookingData } = useSelector((state) => state.client);
+  const { error, isLoading } = useSelector((state) => state.client);
+  // useEffect(() => {
+  //   if (error) {
+  //     navigate('/error');
+  //   }
+  // }, [error]);
 
   const [activeStep, setActiveStep] = useState(0);
   const [bookData, setBookData] = useState({});
@@ -433,7 +439,6 @@ export default function PageProcessing() {
   };
 
   const handleNext = async (packageWithAddons) => {
-    console.log(bookData);
     if (activeStep === 1) {
       if (bookData.personalData.name.length === 0) {
         setValidation({ name: true });
@@ -473,17 +478,16 @@ export default function PageProcessing() {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     } else if (activeStep === 3) {
-      console.log('This is date changed at last', bookData);
       // back-end api calling
-      dispatch(setBookingData(bookData)); // redux api call to back-end
-      navigate(PATH_DASHBOARD.general.pageConfirm);
-      enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
+      await dispatch(setBookingData(bookData)); // redux api call to back-end
+      if (error) {
+        navigate('/error');
+      } else if (error === false) {
+        navigate(PATH_DASHBOARD.general.pageConfirm);
+        enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
+      }
     }
   };
-
-  // useEffect(() => {
-  //   console.log('HHHHHHHHHHH:', bookingData);
-  // }, [bookingData]);
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -613,7 +617,7 @@ export default function PageProcessing() {
                         fullWidth
                         size="large"
                         variant="contained"
-                        // disabled={!bookData.totalBudget}
+                        disabled={!bookData.totalBudget}
                         onClick={handleNext}
                         sx={{ mr: 1 }}
                         // startIcon={<ArrowBackIosIcon />}

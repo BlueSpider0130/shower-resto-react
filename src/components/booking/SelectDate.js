@@ -26,6 +26,8 @@ export default function SelectDate({ getBookDatas, setBookDate }) {
         if (item.checked) setSumAddOn((pre) => pre + Number(item.budget));
         return 'sdf';
       });
+    } else {
+      setSumAddOn(1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

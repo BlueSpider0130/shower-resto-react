@@ -1,4 +1,3 @@
-import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 // utils
 import axios from '../../utils/axios';
@@ -6,19 +5,8 @@ import axios from '../../utils/axios';
 // ----------------------------------------------------------------------
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
   error: false,
-  myProfile: null,
-  posts: [],
-  users: [],
-  userList: [],
-  followers: [],
-  friends: [],
-  gallery: [],
-  cards: null,
-  addressBook: [],
-  invoices: [],
-  notifications: null,
   bookingData: []
 };
 
@@ -34,18 +22,14 @@ const slice = createSlice({
     // HAS ERROR
     hasError(state, action) {
       state.isLoading = false;
-      state.error = action.payload;
-    },
-
-    // GET PROFILE
-    getProfileSuccess(state, action) {
-      state.isLoading = false;
-      state.myProfile = action.payload;
+      state.error = true;
+      console.log(action.payload);
     },
 
     // GET CLIENT bookData
     getClientBookingData(state, action) {
-      state.isLoading = true;
+      state.isLoading = false;
+      console.log(action.payload);
       state.bookingData = action.payload;
     }
   }
@@ -74,13 +58,17 @@ export function getProfile() {
 // ---------------------------------------------------------------------
 
 export function setBookingData(bookData) {
+  console.log('Here is redux');
   return async (dispatch) => {
+    console.log('Here is redux');
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('http://localhost:7000/save-bookdata', bookData);
-      console.log('This is response data in redux', response.data);
+      const response = await axios.post('http://localhost:7000/send-bookdata', bookData);
+      console.log('Here is success section');
+      console.log(response);
       dispatch(slice.actions.getClientBookingData(response.data));
     } catch (error) {
+      console.log('Here is error section');
       dispatch(slice.actions.hasError(error));
     }
   };

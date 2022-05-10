@@ -1,9 +1,11 @@
 // import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // @mui
 import { Paper, Stack, Button, Popover, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
+import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 // import Iconify from '../../components/Iconify';
 // import { arDZ } from 'date-fns/locale';
@@ -11,7 +13,7 @@ import { useSnackbar } from 'notistack';
 // ----------------------------------------------------------------------
 const locationId = 'LHWPSKK4YPV8R';
 const appId = 'sandbox-sq0idb-GAIKxUpEwpJQxZF5qq8quA';
-const prizes = ['📱', '🍫', '🍵', '🍔'];
+// const prizes = ['📱', '🍫', '🍵', '🍔'];
 async function tokenize(paymentMethod) {
   const tokenResult = await paymentMethod.tokenize();
   if (tokenResult.status === 'OK') {
@@ -26,10 +28,17 @@ async function tokenize(paymentMethod) {
 }
 
 export default function PaymentNewCardForm() {
+  const navigate = useNavigate();
   const [isCVVInfoOpen, setIsCVVInfoOpen] = useState(null);
   const [card, setCard] = useState();
   const [isPayProcessing, setIsPayProcessing] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
+  const personalData = JSON.parse(localStorage.getItem('personalData'));
+  const { email, name, phoneNumber, postalCode } = personalData;
+  useEffect(() => {
+    buildPaymentForm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const payments = window.Square.payments(appId, locationId);
   const buildPaymentForm = async () => {
@@ -38,13 +47,9 @@ export default function PaymentNewCardForm() {
     card.attach('#card-container');
     setCard(card);
   };
-  useEffect(() => {
-    buildPaymentForm();
-  }, []);
 
   const payNowClick = async (event) => {
     event.preventDefault();
-    const cardButton = document.getElementById('card-button');
     try {
       // console.log('This is card', card);
       setIsPayProcessing(true);
@@ -52,13 +57,16 @@ export default function PaymentNewCardForm() {
       console.log('This is locationId', token);
       // setCardToken(token);
       console.log('This is cardToken', token);
-
       // api call via fetch to backend with lcationId & token
       const body = JSON.stringify({
         locationId,
-        sourceId: token
+        sourceId: token,
+        name,
+        email,
+        phoneNumber,
+        postalCode
       });
-      const paymentResponse = await axios
+      await axios
         .post('http://localhost:7000/payment', body, {
           headers: {
             'Content-Type': 'application/json'
@@ -69,11 +77,14 @@ export default function PaymentNewCardForm() {
           const { data } = res;
           if (data.success) {
             enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
+            navigate(PATH_DASHBOARD.root);
           }
         });
 
       // if (paymentResponse.ok) {
-      //   return paymentResponse.json();
+      //   enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
+      //   navigate(PATH_DASHBOARD.root);
+      //   // return paymentResponse.json();
       //   // displayPaymentResults('SUCCESS');
       // }
 

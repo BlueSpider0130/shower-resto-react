@@ -1,5 +1,4 @@
 // material
-import axios from 'axios';
 import CheckIcon from '@material-ui/icons/Check';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 

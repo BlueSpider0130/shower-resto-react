@@ -5,7 +5,7 @@ import { useTheme, experimentalStyled as styled } from '@material-ui/core/styles
 // components
 import Page from '../components/Page';
 import { BookSummary, BillingInfo, PaymentForm } from '../components/confirm';
-import { useDispatch, useSelector } from '../redux/store';
+// import { useSelector } from '../redux/store';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -18,7 +18,8 @@ export default function PageConfirm() {
   const upMd = useMediaQuery(theme.breakpoints.up('md'));
   const [formLoaded, setFormLoaded] = useState(false);
 
-  const { bookingData } = useSelector((state) => state.client);
+  // const { isLoading } = useSelector((state) => state.client);
+  // console.log(isLoading);
 
   useEffect(() => {
     const Square = document.createElement('script');
@@ -29,7 +30,7 @@ export default function PageConfirm() {
       setFormLoaded(true);
     };
     document.getElementsByTagName('head')[0].appendChild(Square);
-    console.log('this is redux data', bookingData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Page title="Payment">

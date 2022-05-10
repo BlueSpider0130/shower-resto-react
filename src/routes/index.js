@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
+import { useSelector } from '../redux/store';
 // layouts
 import MainLayout from '../layouts/main';
 import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
@@ -35,6 +36,7 @@ const Loadable = (Component) => (props) => {
 };
 
 export default function Router() {
+  const { isLoading } = useSelector((state) => state.client);
   return useRoutes([
     // Dashboard Routes
     {
@@ -47,6 +49,7 @@ export default function Router() {
           children: [{ path: '/', element: <PageProcessing /> }]
         },
         { path: 'confirm', element: <PageConfirm /> },
+        // { path: 'confirm', element: isLoading ? <LoadingScreen /> : <PageConfirm /> },
         {
           path: 'app',
           children: [
