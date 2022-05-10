@@ -6,13 +6,10 @@ import axios from 'axios';
 import { Paper, Stack, Button, Popover, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import { PATH_DASHBOARD } from '../../routes/paths';
-// components
-// import Iconify from '../../components/Iconify';
-// import { arDZ } from 'date-fns/locale';
 
 // ----------------------------------------------------------------------
-const locationId = 'LHWPSKK4YPV8R';
-const appId = 'sandbox-sq0idb-GAIKxUpEwpJQxZF5qq8quA';
+const locationId = 'LVTG3Q9GGBCNW';
+const appId = 'sandbox-sq0idb-F9z4qyEBs5Dx_jFioZ71Tw';
 // const prizes = ['📱', '🍫', '🍵', '🍔'];
 async function tokenize(paymentMethod) {
   const tokenResult = await paymentMethod.tokenize();
@@ -51,7 +48,6 @@ export default function PaymentNewCardForm() {
   const payNowClick = async (event) => {
     event.preventDefault();
     try {
-      // console.log('This is card', card);
       setIsPayProcessing(true);
       const token = await tokenize(card);
       console.log('This is locationId', token);

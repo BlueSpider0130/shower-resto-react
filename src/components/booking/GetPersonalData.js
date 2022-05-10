@@ -12,10 +12,10 @@ GetPersonalData.propTypes = {
 };
 
 export default function GetPersonalData({ getPersonalDataProps, validationProps }) {
-  const [name, setName] = useState('Vadim Postnicov');
-  const [email, setEmail] = useState('topwebdev.0612@gmail.com');
-  const [phoneNumber, setPhoneNumber] = useState('6135550513');
-  const [postalCode, setPostalCode] = useState('98012');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [postalCode, setPostalCode] = useState('');
 
   const [hasName, setHasName] = useState(false);
   const [hasEmail, setHasEmail] = useState(false);

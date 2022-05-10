@@ -89,7 +89,7 @@ async function createPayment(req, res) {
           amount: 4900,
           // If you are a non-US account, you must change the currency to match the country in which
           // you are accepting the payment.
-          currency: 'USD'
+          currency: 'CAD'
         }
       };
       if (payload.verificationToken) {
