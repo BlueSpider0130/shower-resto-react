@@ -63,7 +63,7 @@ export function setBookingData(bookData) {
     console.log('Here is redux');
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.post('http://localhost:7000/send-bookdata', bookData);
+      const response = await axios.post('https://shower-resto-backend.herokuapp.com/send-bookdata', bookData);
       console.log('Here is success section');
       console.log(response);
       dispatch(slice.actions.getClientBookingData(response.data));

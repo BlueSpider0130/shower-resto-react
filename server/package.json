@@ -1,5 +1,6 @@
 {
   "name": "square-payment-express",
+  "homepage": "http://dev.shower.ca.tilegroutrestore.ca",
   "version": "1.0.0",
   "description": "Implement square API with express js",
   "main": "index.js",

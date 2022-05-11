@@ -37,14 +37,14 @@ const { ApiError, client: square } = require('./controller/square');
 const { nanoid } = require('nanoid');
 
 const app = express();
-const PORT = process.env.PORT || 7000;
+const PORT = process.env.PORT || 8000;
 
 const transporter = nodemailer.createTransport({
   port: 465,
   host: 'smtp.gmail.com',
   auth: {
-    user: 'topwebdev.0612@gmail.com',
-    pass: 'topwebdev061207310321'
+    user: 'sasha.savrasova.89@gmail.com',
+    pass: 'RGHe3t454'
   },
   secure: true
 });
@@ -182,6 +182,18 @@ async function sendBookData(req, res) {
   });
 }
 
+async function serveStatic(req, res) {
+  logger.debug('Handling request', req.path);
+  await staticHandler(req, res, {
+    public: 'public'
+  });
+}
+
+async function sendTestData(req, res) {
+  const payload = await json(req);
+  res.status(200).send({ message: 'mail send', message_id: 'info.messageId' })
+}
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', req.headers.origin);
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -192,7 +204,9 @@ app.use((req, res, next) => {
 
 app.post('/payment', createPayment);
 app.post('/send-bookdata', sendBookData);
+app.post('/test', sendTestData);
 
+app.get('/', serveStatic);
 app.listen(PORT, () => {
   console.log(`I am running again on port ${PORT}`);
 });

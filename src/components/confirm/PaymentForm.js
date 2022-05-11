@@ -63,7 +63,7 @@ export default function PaymentNewCardForm() {
         postalCode
       });
       await axios
-        .post('http://localhost:7000/payment', body, {
+        .post('https://shower-resto-backend.herokuapp.com/payment', body, {
           headers: {
             'Content-Type': 'application/json'
           }
