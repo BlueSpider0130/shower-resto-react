@@ -1,10 +1,10 @@
 // import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 // @mui
 import { Paper, Stack, Button, Popover, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
+import axios from '../../utils/axios';
 import { PATH_DASHBOARD } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
