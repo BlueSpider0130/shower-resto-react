@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
@@ -25,7 +25,6 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import BathtubIcon from '@material-ui/icons/Bathtub';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import LoadingScreen from '../components/LoadingScreen';
 import { useSelector, useDispatch } from '../redux/store';
 import { SelectType, GetPersonalData, SelectPackage, SelectDate } from '../components/booking';
 // components
@@ -391,7 +390,7 @@ export default function PageProcessing() {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
-  const { error, isLoading } = useSelector((state) => state.client);
+  const { error } = useSelector((state) => state.client);
   // useEffect(() => {
   //   if (error) {
   //     navigate('/error');
