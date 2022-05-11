@@ -62,20 +62,14 @@ export default function PaymentNewCardForm() {
         phoneNumber,
         postalCode
       });
-      await axios
-        .post('https://shower-resto-backend.herokuapp.com/payment', body, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((res) => {
-          console.log(res.data);
-          const { data } = res;
-          if (data.success) {
-            enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
-            navigate(PATH_DASHBOARD.root);
-          }
-        });
+      await axios.post('https://shower-resto-backend.herokuapp.com/payment', body).then((res) => {
+        console.log(res.data);
+        const { data } = res;
+        if (data.success) {
+          enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
+          navigate(PATH_DASHBOARD.root);
+        }
+      });
 
       // if (paymentResponse.ok) {
       //   enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
