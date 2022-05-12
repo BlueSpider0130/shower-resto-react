@@ -25,7 +25,7 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import ContactMailIcon from '@material-ui/icons/ContactMail';
 import BathtubIcon from '@material-ui/icons/Bathtub';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
-import { useSelector, useDispatch } from '../redux/store';
+import { useDispatch } from '../redux/store';
 import { SelectType, GetPersonalData, SelectPackage, SelectDate } from '../components/booking';
 // components
 import Page from '../components/Page';
@@ -390,7 +390,7 @@ export default function PageProcessing() {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
-  const { error } = useSelector((state) => state.client);
+  // const { error } = useSelector((state) => state.client);
   // useEffect(() => {
   //   if (error) {
   //     navigate('/error');

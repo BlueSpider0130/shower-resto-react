@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Paper, Stack, Button, Popover, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import axios from '../../utils/axios';
-import { PATH_DASHBOARD } from '../../routes/paths';
+// import { PATH_DASHBOARD } from '../../routes/paths';
 
 // ----------------------------------------------------------------------
 const locationId = 'LVTG3Q9GGBCNW';
@@ -65,26 +65,14 @@ export default function PaymentNewCardForm() {
 
       await axios.post('https://shower-resto-backend.herokuapp.com/payment', body).then((res) => {
         console.log(res);
-        const { data, status } = res;
+        const { status } = res;
         if (status === 200) {
           enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
           navigate('/');
         }
       });
-      // try {
-      //   const response = await axios.post('https://shower-resto-backend.herokuapp.com/send-bookdata', body);
-      //   console.log('Here is success section');
-      //   console.log(response.data);
-      //   if (response.data.success) {
-      //     enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
-      //     navigate(PATH_DASHBOARD.root);
-      //   }
-      // } catch (error) {
-      //   console.log('Here is error section');
-      // }
     } catch (e) {
       setIsPayProcessing(false);
-      // displayPaymentResults('FAILURE');
       console.log('This is error msg', e.message);
     }
   };
@@ -103,25 +91,8 @@ export default function PaymentNewCardForm() {
             <div id="card-container" />
           </form>
           <Typography variant="subtitle1">Pay $49</Typography>
-          {/* <TextField fullWidth size="small" label="Name on card" />
-
-          <TextField fullWidth size="small" /> */}
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ alignItems: 'center' }}>
-            {/* <TextField size="small" />
-            <TextField
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton size="small" edge="end" onClick={(event) => setIsCVVInfoOpen(event.currentTarget)}>
-                      <InfoIcon />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-            /> */}
-
             <div id="payment-status-container" />
           </Stack>
 
