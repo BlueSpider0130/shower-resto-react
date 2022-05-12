@@ -54,32 +54,34 @@ export default function PaymentNewCardForm() {
       // setCardToken(token);
       console.log('This is cardToken', token);
       // api call via fetch to backend with lcationId & token
-      const body = JSON.stringify({
+      const body = {
         locationId,
         sourceId: token,
         name,
         email,
         phoneNumber,
         postalCode
-      });
+      };
+
       await axios.post('https://shower-resto-backend.herokuapp.com/payment', body).then((res) => {
-        console.log(res.data);
-        const { data } = res;
-        if (data.success) {
+        console.log(res);
+        const { data, status } = res;
+        if (status === 200) {
           enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
-          navigate(PATH_DASHBOARD.root);
+          navigate('/');
         }
       });
-
-      // if (paymentResponse.ok) {
-      //   enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
-      //   navigate(PATH_DASHBOARD.root);
-      //   // return paymentResponse.json();
-      //   // displayPaymentResults('SUCCESS');
+      // try {
+      //   const response = await axios.post('https://shower-resto-backend.herokuapp.com/send-bookdata', body);
+      //   console.log('Here is success section');
+      //   console.log(response.data);
+      //   if (response.data.success) {
+      //     enqueueSnackbar('You pay $49 successfully', { variant: 'primary' });
+      //     navigate(PATH_DASHBOARD.root);
+      //   }
+      // } catch (error) {
+      //   console.log('Here is error section');
       // }
-
-      // const errorBody = await paymentResponse.text();
-      // throw new Error(errorBody);
     } catch (e) {
       setIsPayProcessing(false);
       // displayPaymentResults('FAILURE');

@@ -479,12 +479,12 @@ export default function PageProcessing() {
     } else if (activeStep === 3) {
       // back-end api calling
       await dispatch(setBookingData(bookData)); // redux api call to back-end
-      if (error) {
-        navigate('/error');
-      } else if (error === false) {
-        navigate(PATH_DASHBOARD.general.pageConfirm);
-        enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
-      }
+      // if (error) {
+      //   navigate('/error');
+      // } else if (error === false) {
+      navigate(PATH_DASHBOARD.general.pageConfirm);
+      enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
+      // }
     }
   };
 

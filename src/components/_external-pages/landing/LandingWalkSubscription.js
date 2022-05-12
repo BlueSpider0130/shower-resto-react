@@ -1,3 +1,4 @@
+import { NavLink as RouterLink } from 'react-router-dom';
 // material
 import CheckIcon from '@material-ui/icons/Check';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -140,8 +141,8 @@ export default function LandingWalkSubscription() {
                   <Button
                     size="large"
                     variant="outlined"
-                    // component={RouterLink}
-                    // to={PATH_DASHBOARD.root}
+                    component={RouterLink}
+                    to="/book"
                     startIcon={<ArrowRightAltIcon />}
                   >
                     Book Consultation
