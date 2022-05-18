@@ -37,17 +37,14 @@ export default function BookSummary() {
 
         <Stack direction="row" justifyContent="space-between">
           <Typography component="p" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-            Billed Monthly
+            Billed Once
           </Typography>
         </Stack>
 
         <Stack direction="row" justifyContent="flex-end">
           <Typography sx={{ color: 'text.secondary' }}>$</Typography>
           <Typography variant="h2" sx={{ mx: 1 }}>
-            9.99
-          </Typography>
-          <Typography component="span" variant="body2" sx={{ mb: 1, alignSelf: 'flex-end', color: 'text.secondary' }}>
-            /mo
+            49
           </Typography>
         </Stack>
 
@@ -58,7 +55,7 @@ export default function BookSummary() {
             Total Billed
           </Typography>
           <Typography variant="h6" component="p">
-            $9.99*
+            $49*
           </Typography>
         </Stack>
 

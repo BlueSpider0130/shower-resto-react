@@ -47,6 +47,7 @@ export default function Router() {
           children: [{ path: '/', element: <PageProcessing /> }]
         },
         { path: 'confirm', element: <PageConfirm /> },
+        { path: 'consultation', element: <PageConsult /> },
         // { path: 'confirm', element: isLoading ? <LoadingScreen /> : <PageConfirm /> },
         {
           path: 'app',
@@ -86,6 +87,7 @@ export default function Router() {
 // Dashboard
 const PageProcessing = Loadable(lazy(() => import('../pages/PageProcessing')));
 const PageConfirm = Loadable(lazy(() => import('../pages/PageConfirm')));
+const PageConsult = Loadable(lazy(() => import('../pages/PageConsult')));
 const PageFour = Loadable(lazy(() => import('../pages/PageFour')));
 const PageFive = Loadable(lazy(() => import('../pages/PageFive')));
 const PageSix = Loadable(lazy(() => import('../pages/PageSix')));

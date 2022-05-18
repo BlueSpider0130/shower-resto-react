@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles, useTheme, experimentalStyled as styled } from '@material-ui/core/styles';
 // material
@@ -390,13 +391,6 @@ export default function PageProcessing() {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
-  // const { error } = useSelector((state) => state.client);
-  // useEffect(() => {
-  //   if (error) {
-  //     navigate('/error');
-  //   }
-  // }, [error]);
-
   const [activeStep, setActiveStep] = useState(0);
   const [bookData, setBookData] = useState({});
   const [validation, setValidation] = useState({
@@ -408,7 +402,6 @@ export default function PageProcessing() {
     postal: false,
     validPostal: false
   });
-  // const [isChangeDate, setIsChangeDate] = useState(true);
 
   const steps = getSteps(); // ==3
 
@@ -423,7 +416,6 @@ export default function PageProcessing() {
   };
   const handleSetDate = (dateOfBooking, totalBudget) => {
     setBookData({ ...bookData, dateOfBooking, totalBudget });
-    // setIsChangeDate(false);
   };
 
   const getServiceAndNext = (value) => {
@@ -479,13 +471,13 @@ export default function PageProcessing() {
     } else if (activeStep === 3) {
       // back-end api calling
       await dispatch(setBookingData(bookData)); // redux api call to back-end
-      // if (error) {
-      //   navigate('/error');
-      // } else if (error === false) {
       navigate(PATH_DASHBOARD.general.pageConfirm);
       enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
-      // }
     }
+  };
+
+  const bookConsultation = () => {
+    localStorage.setItem('bookData', JSON.stringify(bookData));
   };
 
   const handleBack = () => {
@@ -503,7 +495,6 @@ export default function PageProcessing() {
       <Container maxWidth="lg">
         <Button
           color="inherit"
-          // disabled={activeStep === 0}
           onClick={activeStep === 0 ? routeBack : handleBack}
           sx={{ mr: 1 }}
           startIcon={<ArrowBackIcon />}
@@ -611,18 +602,32 @@ export default function PageProcessing() {
                         </Button>
                       )}
                     {activeStep === 3 && (
-                      <Button
-                        // color="inherit"
-                        fullWidth
-                        size="large"
-                        variant="contained"
-                        disabled={!bookData.totalBudget}
-                        onClick={handleNext}
-                        sx={{ mr: 1 }}
-                        // startIcon={<ArrowBackIosIcon />}
-                      >
-                        Book Now
-                      </Button>
+                      <>
+                        <Button
+                          // color="inherit"
+                          fullWidth
+                          size="large"
+                          variant="contained"
+                          disabled={!bookData.totalBudget}
+                          onClick={handleNext}
+                          sx={{ mr: 1 }}
+                        >
+                          Book Service ($49 deposit)
+                        </Button>
+                        <Button
+                          // color="inherit"
+                          fullWidth
+                          size="large"
+                          component={RouterLink}
+                          to="/book/consultation"
+                          variant="outlined"
+                          disabled={!bookData.totalBudget}
+                          onClick={bookConsultation}
+                          sx={{ mr: 1 }}
+                        >
+                          Book an in-Home consultation
+                        </Button>
+                      </>
                     )}
                   </Box>
                 </CardContent>
