@@ -452,10 +452,7 @@ export default function PageProcessing() {
         setValidation({ validPhone: true });
       } else if (bookData.personalData.postalCode.length === 0) {
         setValidation({ postal: true });
-      } else if (
-        Number.isNaN(Number(bookData.personalData.postalCode)) ||
-        bookData.personalData.postalCode.length < 5
-      ) {
+      } else if (bookData.personalData.postalCode.length < 5) {
         setValidation({ validPostal: true });
       } else {
         const { personalData } = bookData;
