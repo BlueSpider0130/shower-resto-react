@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -11,7 +12,7 @@ export const upload = async (data) => {
     .then((res) => {
       if (res.status === 200) {
         return res.data;
-      }
+      } 
     })
     .catch((err) => {
       console.log(err);

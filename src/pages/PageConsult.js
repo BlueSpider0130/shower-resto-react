@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 // material
 import { experimentalStyled as styled } from '@material-ui/core/styles';
@@ -55,7 +55,6 @@ export default function PageConsult() {
     const { name, email, phoneNumber, postalCode } = bookData.personalData;
 
     const formData = new FormData();
-    // formData.append('bookData', bookData);
     formData.append('bookData', JSON.stringify(bookData));
     formData.append('dateOfBooking', dateOfBooking);
     formData.append('name', name);
