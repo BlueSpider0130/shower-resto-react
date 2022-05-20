@@ -116,7 +116,7 @@ export default function GetPersonalData({ getPersonalDataProps, validationProps 
     if (e.target.value.length === 0) {
       setHasPostalCode(true);
       setHasPostalCodeErrorText('The postal code is required!');
-    } else if (e.target.value.length < 5 || Number.isNaN(Number(e.target.value))) {
+    } else if (e.target.value.length < 5) {
       setHasPostalCode(true);
       setHasPostalCodeErrorText('Please provide correct postal code!');
     } else {
