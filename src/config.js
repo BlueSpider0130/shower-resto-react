@@ -19,6 +19,6 @@ export const auth0Config = {
   domain: process.env.REACT_APP_AUTH0_DOMAIN
 };
 
-export const mapConfig = process.env.REACT_APP_MAP_MAPBOX;
+export const mapConfig = 'pk.eyJ1IjoiZG9ua2lpIiwiYSI6ImNsMm85aTRwMDFlZG8zZW5xbXl4cTlib3UifQ.v47XbnisaP6DlEAmeGRERA';
 
 export const googleAnalyticsConfig = process.env.REACT_APP_GA_MEASUREMENT_ID;
