@@ -18,6 +18,7 @@ import {
   Divider,
   Box
 } from '@material-ui/core';
+import { LoadingButton } from '@material-ui/lab';
 import { useSnackbar } from 'notistack';
 import clsx from 'clsx';
 import Check from '@material-ui/icons/Check';
@@ -391,6 +392,7 @@ export default function PageProcessing() {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [bookData, setBookData] = useState({});
   const [validation, setValidation] = useState({
@@ -469,8 +471,10 @@ export default function PageProcessing() {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     } else if (activeStep === 3) {
+      setIsSubmitting(true);
       // back-end api calling
       await dispatch(setBookingData(bookData)); // redux api call to back-end
+      setIsSubmitting(false);
       navigate(PATH_DASHBOARD.general.pageConfirm);
       enqueueSnackbar('Your requiest has been sent to owner!', { variant: 'primary' });
     }
@@ -570,8 +574,8 @@ export default function PageProcessing() {
                     </>
                   )}
                   {activeStep === 3 && <SelectDate getBookDatas={bookData} setBookDate={handleSetDate} />}
-                  <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width: '70%' }}>
-                    {activeStep === 1 && (
+                  {activeStep === 1 && (
+                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width: '70%' }}>
                       <Button
                         // color="inherit"
                         fullWidth
@@ -584,10 +588,12 @@ export default function PageProcessing() {
                       >
                         Next
                       </Button>
-                    )}
-                    {activeStep === 2 &&
-                      (bookData.serviceTypeData.type === 'Bathtub Floor' ||
-                        bookData.serviceTypeData.type === 'Multiple Bathtub and Shower') && (
+                    </Box>
+                  )}
+                  {activeStep === 2 &&
+                    (bookData.serviceTypeData.type === 'Bathtub Floor' ||
+                      bookData.serviceTypeData.type === 'Multiple Bathtub and Shower') && (
+                      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width: '70%' }}>
                         <Button
                           // color="inherit"
                           fullWidth
@@ -600,36 +606,37 @@ export default function PageProcessing() {
                         >
                           Next
                         </Button>
-                      )}
-                    {activeStep === 3 && (
-                      <>
-                        <Button
-                          // color="inherit"
-                          fullWidth
-                          size="large"
-                          variant="contained"
-                          disabled={!bookData.totalBudget}
-                          onClick={handleNext}
-                          sx={{ mr: 1 }}
-                        >
-                          Book Service ($49 deposit)
-                        </Button>
-                        <Button
-                          // color="inherit"
-                          fullWidth
-                          size="large"
-                          component={RouterLink}
-                          to="/book/consultation"
-                          variant="outlined"
-                          disabled={!bookData.totalBudget}
-                          onClick={bookConsultation}
-                          sx={{ mr: 1 }}
-                        >
-                          Book an in-Home consultation
-                        </Button>
-                      </>
+                      </Box>
                     )}
-                  </Box>
+                  {activeStep === 3 && (
+                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2, width: '80%' }}>
+                      <LoadingButton
+                        // color="inherit"
+                        loading={isSubmitting}
+                        fullWidth
+                        size="large"
+                        variant="contained"
+                        disabled={!bookData.totalBudget}
+                        onClick={handleNext}
+                        sx={{ mr: 1 }}
+                      >
+                        Book Service ($49 deposit)
+                      </LoadingButton>
+                      <Button
+                        // color="inherit"
+                        fullWidth
+                        size="large"
+                        component={RouterLink}
+                        to="/book/consultation"
+                        variant="outlined"
+                        disabled={!bookData.totalBudget}
+                        onClick={bookConsultation}
+                        sx={{ mr: 1 }}
+                      >
+                        Book an in-Home consultation (free)
+                      </Button>
+                    </Box>
+                  )}
                 </CardContent>
               </Card>
             )}

@@ -1,6 +1,6 @@
 // import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink as RouterLink } from 'react-router-dom';
 // @mui
 import { Paper, Stack, Button, Popover, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
@@ -100,7 +100,9 @@ export default function PaymentNewCardForm() {
             <Button id="card-button" fullWidth variant="contained" disabled={isPayProcessing} onClick={payNowClick}>
               Pay $49
             </Button>
-            <Button fullWidth>Skip now</Button>
+            <Button component={RouterLink} to="/book/consultation" fullWidth>
+              Skip Now
+            </Button>
           </Stack>
         </Stack>
       </Paper>
