@@ -40,7 +40,7 @@ const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(({ them
   }
 }));
 
-const HeroImgStyle = styled(motion.img)(({ theme }) => ({
+const HeroImgStyle = styled(motion.img)(() => ({
   zIndex: 9,
   width: '100%',
   height: '100%',
@@ -54,7 +54,6 @@ export default function LandingHero() {
   return (
     <>
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
-
         <HeroImgStyle alt="hero" src="/static/home/hero.png" />
 
         <Container maxWidth="lg">

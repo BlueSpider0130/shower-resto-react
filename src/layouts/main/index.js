@@ -3,7 +3,7 @@ import { useLocation, Outlet } from 'react-router-dom';
 // components
 //
 import MainNavbar from './MainNavbar';
-import MainFooter from './MainFooter';
+// import MainFooter from './MainFooter';
 
 // ----------------------------------------------------------------------
 
