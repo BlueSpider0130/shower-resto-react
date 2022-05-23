@@ -554,7 +554,11 @@ export default function PageProcessing() {
                   {activeStep !== 3 && <Box m={4} />}
                   {activeStep === 0 && <SelectType onNext={getServiceAndNext} />}
                   {activeStep === 1 && (
-                    <GetPersonalData getPersonalDataProps={handlePersonalData} validationProps={validation} />
+                    <GetPersonalData
+                      getPersonalDataProps={handlePersonalData}
+                      validationProps={validation}
+                      sx={{ width: '70%' }}
+                    />
                   )}
                   {activeStep === 2 && (
                     <>

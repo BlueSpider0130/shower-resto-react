@@ -7,25 +7,31 @@ import { varFadeInRight, MotionInView } from '../animate';
 // ----------------------------------------------------------------------
 
 GetPersonalData.propTypes = {
+  isDescriptionField: PropTypes.bool,
+  sx: PropTypes.object,
+  inputSx: PropTypes.object,
   getPersonalDataProps: PropTypes.func,
   validationProps: PropTypes.object
 };
 
-export default function GetPersonalData({ getPersonalDataProps, validationProps }) {
+export default function GetPersonalData({ sx, isDescriptionField, inputSx, getPersonalDataProps, validationProps }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [postalCode, setPostalCode] = useState('');
+  const [description, setDescription] = useState('');
 
   const [hasName, setHasName] = useState(false);
   const [hasEmail, setHasEmail] = useState(false);
   const [hasPhoneNumber, setHasPhoneNumber] = useState(false);
   const [hasPostalCode, setHasPostalCode] = useState(false);
+  const [hasDescription, setHasDescription] = useState(false);
 
   const [hasNameErrorText, setHasNameErrorText] = useState('');
   const [hasEmailErrorText, setHasEmailErrorText] = useState('');
   const [hasPhoneNumberErrorText, setHasPhoneNumberErrorText] = useState('');
   const [hasPostalCodeErrorText, setHasPostalCodeErrorText] = useState('');
+  const [hasDescriptionErrorText, setHasDescriptionErrorText] = useState('');
 
   const [personalData, setPersonalData] = useState({});
 
@@ -34,10 +40,11 @@ export default function GetPersonalData({ getPersonalDataProps, validationProps 
       name,
       email,
       phoneNumber,
-      postalCode
+      postalCode,
+      description
     };
     setPersonalData(dataObj);
-  }, [name, email, phoneNumber, postalCode]);
+  }, [name, email, phoneNumber, postalCode, description]);
 
   useEffect(() => {
     getPersonalDataProps(personalData);
@@ -66,6 +73,9 @@ export default function GetPersonalData({ getPersonalDataProps, validationProps 
     } else if (validationProps.validPostal) {
       setHasPostalCode(true);
       setHasPostalCodeErrorText('Please provide correct postal code!');
+    } else if (validationProps.description) {
+      setHasDescription(true);
+      setHasDescriptionErrorText('This field is required!');
     }
   }, [validationProps]);
 
@@ -126,28 +136,47 @@ export default function GetPersonalData({ getPersonalDataProps, validationProps 
     setPostalCode(e.target.value);
   };
 
+  const handleChangeDescription = (e) => {
+    if (e.target.value.length === 0) {
+      setHasDescription(true);
+      setHasDescriptionErrorText('The postal code is required!');
+    } else {
+      setHasDescription(false);
+      setHasDescriptionErrorText('');
+    }
+    setDescription(e.target.value);
+  };
+
   return (
-    <Stack spacing={3} sx={{ width: '70%' }}>
+    <Stack spacing={3} sx={{ ...sx }}>
       <MotionInView variants={varFadeInRight}>
         <TextField
           error={hasName}
+          name="name"
           helperText={hasNameErrorText}
           value={name}
           fullWidth
           onChange={handleChangeName}
           label="FIRST AND LAST NAME"
+          InputProps={{
+            style: { ...inputSx }
+          }}
         />
       </MotionInView>
 
       <MotionInView variants={varFadeInRight}>
         <TextField
           error={hasEmail}
+          name="email"
           helperText={hasEmailErrorText}
           value={email}
-          type={email}
+          // type={email}
           onChange={handleChangeEmail}
           fullWidth
           label="EMAIL"
+          InputProps={{
+            style: { ...inputSx }
+          }}
         />
       </MotionInView>
 
@@ -161,19 +190,44 @@ export default function GetPersonalData({ getPersonalDataProps, validationProps 
           onChange={handleChangePhoneNumber}
           fullWidth
           label="PHONE NUMBER"
+          InputProps={{
+            style: { ...inputSx }
+          }}
         />
       </MotionInView>
 
       <MotionInView variants={varFadeInRight}>
         <TextField
+          name="postal-code"
           error={hasPostalCode}
           helperText={hasPostalCodeErrorText}
           value={postalCode}
           onChange={handleChangePostalCode}
           fullWidth
           label="POSTAL CODE"
+          InputProps={{
+            style: { ...inputSx }
+          }}
         />
       </MotionInView>
+      {isDescriptionField && (
+        <MotionInView variants={varFadeInRight}>
+          <TextField
+            name="text"
+            error={hasDescription}
+            helperText={hasDescriptionErrorText}
+            value={description}
+            onChange={handleChangeDescription}
+            fullWidth
+            label="Enter your message here."
+            multiline
+            rows={4}
+            InputProps={{
+              style: { ...inputSx }
+            }}
+          />
+        </MotionInView>
+      )}
     </Stack>
   );
 }

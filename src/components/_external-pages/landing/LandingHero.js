@@ -60,7 +60,6 @@ export default function LandingHero() {
   return (
     <>
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
-        {/* <HeroOverlayStyle alt="overlay" src="/static/overlay.svg" variants={varFadeIn} /> */}
 
         <HeroImgStyle alt="hero" autoPlay muted loop src="/static/home/hero.mp4" />
 
@@ -70,19 +69,8 @@ export default function LandingHero() {
               <Typography variant="h2" sx={{ color: 'common.white' }}>
                 Restoring Your Shower <br />
                 Without Damaging <br /> Your Wallet!
-                {/* <Typography component="span" variant="h1" sx={{ color: 'primary.main' }}>
-                  &nbsp;Minimal
-                </Typography> */}
               </Typography>
             </motion.div>
-
-            {/* <motion.div variants={varFadeInRight}>
-              <Typography sx={{ color: 'common.white' }}>
-                The starting point for your next project based on easy-to-customize Material-UI © helps you build apps
-                faster and better.
-              </Typography>
-            </motion.div> */}
-
             <motion.div variants={varFadeInRight}>
               <Button
                 size="large"
@@ -94,15 +82,6 @@ export default function LandingHero() {
                 Book now
               </Button>
             </motion.div>
-
-            {/* <Stack direction="row" spacing={1.5} justifyContent={{ xs: 'center', md: 'flex-start' }}>
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_sketch.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_figma.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_material.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_react.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_js.svg" />
-              <motion.img variants={varFadeInRight} src="/static/home/ic_m_ts.svg" />
-            </Stack> */}
           </ContentStyle>
         </Container>
       </RootStyle>
