@@ -67,10 +67,8 @@ export default function LandingContactUs() {
       setIsSubmitting(true);
       const result = await submitContact(contactInfo); // api call function
       setIsSubmitting(false);
-      if (result === true) {
-        window.scrollTo(0, 0);
-        enqueueSnackbar('Thank you. We will be in touch very soon', { variant: 'primary' });
-      }
+      window.scrollTo(0, 0);
+      enqueueSnackbar('Thank you. We will be in touch very soon', { variant: 'primary' });
       console.log(result);
     }
   };
