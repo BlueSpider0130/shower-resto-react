@@ -65,10 +65,12 @@ export default function LandingContactUs() {
       setValidation({ validPostal: true });
     } else {
       setIsSubmitting(true);
-      const result = await submitContact(contactInfo);
+      const result = await submitContact(contactInfo); // api call function
       setIsSubmitting(false);
-      window.scrollTo(0, 0);
-      enqueueSnackbar('Thank you. We will be in touch very soon', { variant: 'primary' });
+      if (result === true) {
+        window.scrollTo(0, 0);
+        enqueueSnackbar('Thank you. We will be in touch very soon', { variant: 'primary' });
+      }
       console.log(result);
     }
   };
@@ -93,24 +95,24 @@ export default function LandingContactUs() {
 
         <Grid container spacing={5} direction="row-reverse" justifyContent="space-between">
           <Grid item xs={12} md={12}>
-            <Typography variant="h2" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
               Complete Shower Restoration Co.
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>
               10872148 Canada Incorporated 15 Vicora Linkway Unit 503 Toronto, ON M3C 1A7 Canada
             </Typography>
-            <Typography variant="h2" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
               Tel 647-871-SHWR (7497)
             </Typography>
-            <Typography variant="h2" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
               Email
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>quote@completeshowerrestoration.ca</Typography>
-            <Typography variant="h2" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
               Hours
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>Monday – Saturday 8:00 am – 8:00 pm</Typography>
-            <Typography variant="h2" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
               Service Areas
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>

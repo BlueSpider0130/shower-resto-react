@@ -36,8 +36,8 @@ const CardStyle = styled(Card)(({ theme }) => {
       : alpha(theme.palette.common.black, opacity);
 
   return {
-    maxWidth: 1500,
-    minHeight: 250,
+    maxWidth: 3000,
+    minHeight: 400,
     margin: 'auto',
     textAlign: 'left',
     padding: theme.spacing(5, 5, 0),
@@ -46,11 +46,11 @@ const CardStyle = styled(Card)(({ theme }) => {
     [theme.breakpoints.up('md')]: {
       boxShadow: 'none',
       backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800]
-    },
-    '&.cardMould': {
-      minHeight: 200,
-      [theme.breakpoints.up('md')]: { marginTop: 5 }
     }
+    // '&.cardMould': {
+    //   minHeight: 400,
+    //   [theme.breakpoints.up('md')]: { marginTop: 5 }
+    // }
   };
 });
 
@@ -64,11 +64,11 @@ export default function LandingWhyShower() {
           <Typography variant="h2" sx={{ textAlign: 'left' }}>
             Why restore your shower?
           </Typography>
-          <Grid item container spacing={3} xs={12} md={8} sx={{ display: 'flex', alignItems: 'center' }}>
-            {CARDS.map((card, index) => (
-              <Grid key={card.title} item md={(index === 0 && 12) || 6} lg={(index === 0 && 12) || 6}>
+          <Grid item container spacing={4} xs={12} md={12} sx={{ display: 'flex', alignItems: 'center' }}>
+            {CARDS.map((card) => (
+              <Grid key={card.title} item md={4}>
                 <MotionInView variants={varFadeInUp}>
-                  <CardStyle className={index === 0 && 'cardMould'}>
+                  <CardStyle>
                     <Typography variant="h5" paragraph>
                       {card.title}
                     </Typography>

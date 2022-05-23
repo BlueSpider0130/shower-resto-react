@@ -115,11 +115,6 @@ export default function LandingShowerHelps() {
         <Grid container>
           <Grid item xs={12} md={12} lg={4}>
             <Box sx={{ mb: { xs: 1, md: 1, lg: 25 } }}>
-              <MotionInView variants={varFadeInUp}>
-                <Typography component="p" variant="overline" sx={{ mb: 2, color: 'text.secondary', textAlign: 'left' }}>
-                  Shower
-                </Typography>
-              </MotionInView>
               <MotionInView variants={varFadeInDown}>
                 <Typography variant="h3" sx={{ textAlign: 'left' }}>
                   Why Choose

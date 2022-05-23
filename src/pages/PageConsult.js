@@ -14,6 +14,7 @@ import { upload } from '../utils/API';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
+  // height: '100%',
   paddingTop: theme.spacing(15),
   paddingBottom: theme.spacing(10)
 }));
@@ -69,12 +70,12 @@ export default function PageConsult() {
 
     setIsSubmitting(true);
     console.log(formData);
-    const testResult = await upload(formData);
+    const uploadResult = await upload(formData);
     setIsSubmitting(false);
-    if (testResult?.status === 'success') {
+    if (uploadResult?.status === 'success') {
       enqueueSnackbar('Images are submitted successfuly!', { variant: 'primary' });
-      console.log('Test', testResult);
-      navigate('/');
+      console.log('Test', uploadResult);
+      navigate('/book/thankyou');
     } else navigate('something-went-wrong');
   };
 

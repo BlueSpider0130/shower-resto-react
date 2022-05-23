@@ -14,9 +14,10 @@ export default function MainLayout() {
   return (
     <>
       {isHome && <MainNavbar />}
+      {/* <div> */}
       <Outlet />
-
-      {isHome && <MainFooter />}
+      {/* </div> */}
+      {/* {isHome && <MainFooter />} */}
     </>
   );
 }

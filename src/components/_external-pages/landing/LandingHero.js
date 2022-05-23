@@ -40,18 +40,12 @@ const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(({ them
   }
 }));
 
-const HeroImgStyle = styled(motion.video)(({ theme }) => ({
-  top: 0,
-  right: 0,
-  bottom: 0,
-  zIndex: 8,
+const HeroImgStyle = styled(motion.img)(({ theme }) => ({
+  zIndex: 9,
   width: '100%',
-  // margin: 'auto',
-  position: 'absolute',
-  [theme.breakpoints.down('sm')]: {
-    margin: 'auto',
-    height: '100vh'
-  }
+  height: '100%',
+  objectFit: 'cover',
+  position: 'absolute'
 }));
 
 // ----------------------------------------------------------------------
@@ -61,7 +55,7 @@ export default function LandingHero() {
     <>
       <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
 
-        <HeroImgStyle alt="hero" autoPlay muted loop src="/static/home/hero.mp4" />
+        <HeroImgStyle alt="hero" src="/static/home/hero.png" />
 
         <Container maxWidth="lg">
           <ContentStyle>
