@@ -5,7 +5,7 @@ import { Button, Typography, Container } from '@material-ui/core';
 // components
 import Page from '../components/Page';
 //
-import { MaintenanceIllustration } from '../assets';
+// import { MaintenanceIllustration } from '../assets';
 
 // ----------------------------------------------------------------------
 
