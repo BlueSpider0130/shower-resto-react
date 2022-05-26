@@ -15,7 +15,7 @@ import { submitContact } from '../../../utils/API';
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(28, 0),
-  backgroundColor: theme.palette.grey[900]
+  backgroundColor: theme.palette.grey[300]
 }));
 
 // ----------------------------------------------------------------------
@@ -93,40 +93,40 @@ export default function LandingContactUs() {
 
         <Grid container spacing={5} direction="row-reverse" justifyContent="space-between">
           <Grid item xs={12} md={12}>
-            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.primary' }}>
               Complete Shower Restoration Co.
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
+            {/* <Typography sx={{ color: 'text.secondary' }}>
               10872148 Canada Incorporated 15 Vicora Linkway Unit 503 Toronto, ON M3C 1A7 Canada
-            </Typography>
-            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            </Typography> */}
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.primary' }}>
               Tel 647-871-SHWR (7497)
             </Typography>
-            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.primary' }}>
               Email
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>quote@completeshowerrestoration.ca</Typography>
-            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography sx={{ color: 'text.primary' }}>quote@completeshowerrestoration.ca</Typography>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.primary' }}>
               Hours
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Monday – Saturday 8:00 am – 8:00 pm</Typography>
-            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.secondary' }}>
+            <Typography sx={{ color: 'text.primary' }}>Monday – Saturday 8:00 am – 8:00 pm</Typography>
+            <Typography variant="h4" paragraph sx={{ display: 'flex', alignItems: 'center', color: 'text.primary' }}>
               Service Areas
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
+            <Typography sx={{ color: 'text.primary' }}>
               Toronto, Mississauga, Newmarket, Brampton, Scarborough, Pickering, Oshawa and more!
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
             <MotionInView variants={varFadeInUp}>
-              <Typography variant="h3" color="#ffffff">
+              <Typography variant="h3" color='text.primary'>
                 Feel free to contact us. <br />
                 We'll be glad to hear from you, buddy.
               </Typography>
               {/* <ContactForm /> */}
               <GetPersonalData
                 isDescriptionField
-                inputSx={{ color: 'white', backgroundColor: 'dark' }}
+                inputSx={{ color: 'color.primary', backgroundColor: 'dark' }}
                 sx={{ width: '100%', paddingBottom: 3 }}
                 getPersonalDataProps={handlePersonalData}
                 validationProps={validation}

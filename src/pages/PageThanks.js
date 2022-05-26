@@ -26,9 +26,9 @@ export default function Maintenance() {
         <Typography variant="h3" paragraph>
           Thank you. We will be in touch very soon.
         </Typography>
-        <Typography sx={{ color: 'text.secondary' }}>We are currently working hard on here!</Typography>
+        {/* <Typography sx={{ color: 'text.secondary' }}>We are currently working hard on here!</Typography> */}
 
-        <MaintenanceIllustration sx={{ my: 10, height: 240 }} />
+        {/* <MaintenanceIllustration sx={{ my: 10, height: 240 }} /> */}
 
         <Button variant="contained" size="large" component={RouterLink} to="/">
           Go to Home
